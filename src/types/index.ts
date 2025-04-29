@@ -3,9 +3,9 @@ export type BookStatus = "plan" | "reading" | "finished";
 
 // Represents a book fetched from the Open Library API
 export type Book = {
-	key: string;
+	bookKey: string;
 	title: string;
-	author: string;
+	author: string[];
 	coverId?: number;
 	firstSentence?: string;
 	description?: string;
@@ -13,12 +13,10 @@ export type Book = {
 	pageCount?: number;
 };
 
-// Represents a book that the user has marked as a favorite.
-export type FavoriteBook = Book;
-
-// Represents a book that the user has read or is in the process of reading.
-export type ReadBook = Book & {
-	status: BookStatus;
+// Represents a book with user-specific metadata (status and/or favorite)
+export type BookWithStatus = Book & {
+	isFavorite?: boolean;
+	status?: BookStatus;
 	rating?: number;
 	review?: string;
 };

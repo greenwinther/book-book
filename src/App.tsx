@@ -1,20 +1,26 @@
 import "./App.scss";
-import { FavoritesProvider } from "./contexts/FavoritesContext.tsx";
-import { ReadBooksProvider } from "./contexts/ReadBooksContext.tsx";
+import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+import { StatusProvider } from "./contexts/StatusContext";
+import Layout from "./layout/Layout";
+import Home from "./pages/Home";
+import Profile from "./pages/profile/Profile";
+import SearchResults from "./pages/SearchResults";
+import BookDetails from "./pages/BookDetails";
 
 function App() {
 	return (
-		<>
-			<FavoritesProvider>
-				<ReadBooksProvider>
-					{/* Your main application component goes here */}
-					<div className="app">
-						<h1>Book Tracker</h1>
-						{/* Other components can be added here */}
-					</div>
-				</ReadBooksProvider>
-			</FavoritesProvider>
-		</>
+		<StatusProvider>
+			<Router>
+				<Routes>
+					<Route path="/" element={<Layout />}>
+						<Route index element={<Home />} />
+						<Route path="profile" element={<Profile />} />
+						<Route path="works/:bookKey" element={<BookDetails />} />
+						<Route path="/search" element={<SearchResults />} />
+					</Route>
+				</Routes>
+			</Router>
+		</StatusProvider>
 	);
 }
 

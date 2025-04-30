@@ -10,7 +10,7 @@ export const fetchBookByKey = async (bookKey: string): Promise<Book | null> => {
 		const authorNames = await fetchAuthorNames(data.authors ?? []);
 
 		const transformed: Book = {
-			bookKey: data.key,
+			bookKey: data.key.replace("/works/", ""),
 			title: data.title,
 			author: authorNames.length > 0 ? authorNames : ["Unknown"],
 			coverId: data.covers?.[0],

@@ -1,8 +1,14 @@
 import { BookWithStatus } from "../../types";
 import { Link } from "react-router-dom";
+import { useStatus } from "../../contexts/StatusContext";
+import StatusDropdown from "../StatusDropdown/StatusDropdown";
 
-const BookCard = ({ title, author, coverId, rating, review, bookKey }: BookWithStatus) => {
+const BookCard = ({ title, author, coverId, bookKey }: BookWithStatus) => {
+	const { books, addOrUpdateBook } = useStatus();
 	const coverUrl = coverId ? `https://covers.openlibrary.org/b/id/${coverId}-M.jpg` : "/fallback-cover.jpg";
+
+	const currentStatus = books.find((b) => b.bookKey === bookKey)?.status;
+
 	return (
 		<article className="book-card">
 			<Link to={`${bookKey}`} className="book-card-link">
@@ -11,10 +17,12 @@ const BookCard = ({ title, author, coverId, rating, review, bookKey }: BookWithS
 					<h3 className="book-title">{title || "Untitled"}</h3>
 					<p className="book-author">{author?.join(", ") || "Unknown author"}</p>
 					<span className="view-details">View details</span>
-					{rating && <span> – Rated {rating}/5</span>}
-					{review && <p>“{review}”</p>}
 				</div>
 			</Link>
+			<StatusDropdown
+				status={currentStatus}
+				onChange={(newStatus) => addOrUpdateBook({ title, author, coverId, bookKey }, newStatus)}
+			/>
 		</article>
 	);
 };

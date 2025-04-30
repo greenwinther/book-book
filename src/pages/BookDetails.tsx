@@ -1,29 +1,25 @@
 import { useParams } from "react-router-dom";
 import { useEffect, useState } from "react";
-import { Book } from "../types";
+import { Book, BookStatus } from "../types";
 import { useStatus } from "../contexts/StatusContext";
+import StatusDropdown from "../components/StatusDropdown/StatusDropdown";
 import "./BookDetails.scss";
 
 const BookDetails = () => {
 	const { bookKey } = useParams<{ bookKey: string }>();
-	console.log("key from URL:", bookKey); // Debugging line to check the extracted key
 	const [book, setBook] = useState<Book | null>(null);
 	const [loading, setLoading] = useState(true);
 	const [review, setReview] = useState("");
 	const [rating, setRating] = useState(0);
-	const [status, setStatus] = useState<"plan" | "reading" | "finished" | "">("");
-	const [isFav, setIsFav] = useState(false);
 
-	const { addOrUpdateBook, updateBookReview, getFavoriteBooks, books } = useStatus();
+	const { books, addOrUpdateBook, updateBookReview } = useStatus();
 
 	useEffect(() => {
 		const fetchBook = async () => {
-			if (!bookKey) return; // Add this check to ensure key is valid
-
+			if (!bookKey) return;
 			try {
 				const response = await fetch(`https://openlibrary.org/works/${bookKey}.json`);
 				const data = await response.json();
-
 				const transformed: Book = {
 					bookKey: data.key,
 					title: data.title,
@@ -34,7 +30,6 @@ const BookDetails = () => {
 					genres: data.subjects?.slice(0, 5),
 					firstSentence: data.first_sentence?.value,
 				};
-
 				setBook(transformed);
 			} catch (error) {
 				console.error("Failed to fetch book details", error);
@@ -46,44 +41,30 @@ const BookDetails = () => {
 		fetchBook();
 	}, [bookKey]);
 
-	// Check if the book is already in state (for status or review prefill)
 	useEffect(() => {
 		if (!book) return;
-
 		const existing = books.find((b) => b.bookKey === book.bookKey);
 		if (existing) {
-			setStatus(existing.status ?? "");
 			setReview(existing.review ?? "");
 			setRating(existing.rating ?? 0);
 		}
-
-		const fav = getFavoriteBooks().some((b) => b.bookKey === book.bookKey);
-		setIsFav(fav);
 	}, [book, books]);
 
-	const handleStatusChange = (newStatus: "plan" | "reading" | "finished") => {
-		if (!book) return;
-		setStatus(newStatus);
-		addOrUpdateBook(book, newStatus, isFav);
-	};
+	if (loading) return <p>Loading...</p>;
+	if (!book) return <p>Book not found.</p>;
+
+	const existing = books.find((b) => b.bookKey === book.bookKey);
+	const currentStatus: BookStatus | undefined = existing?.status;
+	const isFavorite = existing?.isFavorite ?? false;
 
 	const handleReviewSubmit = (e: React.FormEvent) => {
 		e.preventDefault();
-		if (!book) return;
 		updateBookReview(book.bookKey, review, rating);
 	};
 
 	const handleToggleFavorite = () => {
-		if (!book) return;
-		setIsFav((prev) => {
-			const newFav = !prev;
-			addOrUpdateBook(book, status || undefined, newFav);
-			return newFav;
-		});
+		addOrUpdateBook(book, currentStatus || undefined, !isFavorite);
 	};
-
-	if (loading) return <p>Loading...</p>;
-	if (!book) return <p>Book not found.</p>;
 
 	return (
 		<div className="book-details">
@@ -100,24 +81,10 @@ const BookDetails = () => {
 
 			<div className="status-controls">
 				<h3>Status</h3>
-				<button
-					onClick={() => handleStatusChange("plan")}
-					className={status === "plan" ? "active" : ""}
-				>
-					Plan to Read
-				</button>
-				<button
-					onClick={() => handleStatusChange("reading")}
-					className={status === "reading" ? "active" : ""}
-				>
-					Reading
-				</button>
-				<button
-					onClick={() => handleStatusChange("finished")}
-					className={status === "finished" ? "active" : ""}
-				>
-					Finished
-				</button>
+				<StatusDropdown
+					status={currentStatus}
+					onChange={(newStatus) => addOrUpdateBook(book, newStatus, isFavorite)}
+				/>
 			</div>
 
 			<div className="review-form">
@@ -140,7 +107,7 @@ const BookDetails = () => {
 			</div>
 
 			<button onClick={handleToggleFavorite}>
-				{isFav ? "Remove from Favorites" : "Add to Favorites"}
+				{isFavorite ? "Remove from Favorites" : "Add to Favorites"}
 			</button>
 		</div>
 	);

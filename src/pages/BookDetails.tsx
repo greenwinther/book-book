@@ -4,6 +4,7 @@ import { Book, BookStatus } from "../types";
 import { useStatus } from "../contexts/StatusContext";
 import StatusDropdown from "../components/StatusDropdown/StatusDropdown";
 import "./BookDetails.scss";
+import { fetchBookByKey } from "../api/book";
 
 const BookDetails = () => {
 	const { bookKey } = useParams<{ bookKey: string }>();
@@ -15,30 +16,13 @@ const BookDetails = () => {
 	const { books, addOrUpdateBook, updateBookReview } = useStatus();
 
 	useEffect(() => {
-		const fetchBook = async () => {
+		const getBook = async () => {
 			if (!bookKey) return;
-			try {
-				const response = await fetch(`https://openlibrary.org/works/${bookKey}.json`);
-				const data = await response.json();
-				const transformed: Book = {
-					bookKey: data.key,
-					title: data.title,
-					author: data.authors?.map((a: any) => a.name) ?? ["Unknown"],
-					coverId: data.covers?.[0],
-					description:
-						typeof data.description === "string" ? data.description : data.description?.value,
-					genres: data.subjects?.slice(0, 5),
-					firstSentence: data.first_sentence?.value,
-				};
-				setBook(transformed);
-			} catch (error) {
-				console.error("Failed to fetch book details", error);
-			} finally {
-				setLoading(false);
-			}
+			const fetched = await fetchBookByKey(bookKey); // Use the new function
+			setBook(fetched);
+			setLoading(false);
 		};
-
-		fetchBook();
+		getBook();
 	}, [bookKey]);
 
 	useEffect(() => {

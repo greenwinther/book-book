@@ -5,6 +5,7 @@ import { useStatus } from "../contexts/StatusContext";
 import StatusDropdown from "../components/StatusDropdown/StatusDropdown";
 import "./BookDetails.scss";
 import { fetchBookByKey } from "../api/book";
+import ReviewForm from "../components/ReviewForm/ReviewForm";
 
 const BookDetails = () => {
 	const { bookKey } = useParams<{ bookKey: string }>();
@@ -41,11 +42,6 @@ const BookDetails = () => {
 	const currentStatus: BookStatus | undefined = existing?.status;
 	const isFavorite = existing?.isFavorite ?? false;
 
-	const handleReviewSubmit = (e: React.FormEvent) => {
-		e.preventDefault();
-		updateBookReview(book.bookKey, review, rating);
-	};
-
 	const handleToggleFavorite = () => {
 		addOrUpdateBook(book, currentStatus || undefined, !isFavorite);
 	};
@@ -71,24 +67,12 @@ const BookDetails = () => {
 				/>
 			</div>
 
-			<div className="review-form">
-				<h3>Review</h3>
-				<form onSubmit={handleReviewSubmit}>
-					<textarea
-						value={review}
-						onChange={(e) => setReview(e.target.value)}
-						placeholder="Write your thoughts..."
-					/>
-					<input
-						type="number"
-						min={1}
-						max={5}
-						value={rating}
-						onChange={(e) => setRating(Number(e.target.value))}
-					/>
-					<button type="submit">Save Review</button>
-				</form>
-			</div>
+			<ReviewForm
+				bookKey={book.bookKey}
+				initialReview={review}
+				initialRating={rating}
+				onSubmit={(review, rating) => updateBookReview(book.bookKey, review, rating)}
+			/>
 
 			<button onClick={handleToggleFavorite}>
 				{isFavorite ? "Remove from Favorites" : "Add to Favorites"}

@@ -1,3 +1,5 @@
+import "./Rating.scss";
+
 type RatingProps = {
 	rating: number | null;
 };

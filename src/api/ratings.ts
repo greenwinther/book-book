@@ -1,6 +1,6 @@
 export const fetchAverageRating = async (bookKey: string): Promise<number | null> => {
 	try {
-		const response = await fetch(`https://openlibrary.org${bookKey}/ratings.json`);
+		const response = await fetch(`https://openlibrary.org/works/${bookKey}/ratings.json`);
 		if (!response.ok) throw new Error("Failed to fetch rating");
 
 		const data = await response.json();

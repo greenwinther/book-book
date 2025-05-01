@@ -17,7 +17,7 @@ export const useSearchBooks = (query?: string) => {
 			const data = await res.json();
 
 			const books: Book[] = data.docs.slice(0, 20).map((doc: any) => ({
-				bookKey: doc.key,
+				bookKey: doc.key.replace("/works/", ""),
 				title: doc.title,
 				author: doc.author_name || ["Unknown"],
 				coverId: doc.cover_i,
@@ -31,7 +31,6 @@ export const useSearchBooks = (query?: string) => {
 		}
 	};
 
-	// Auto-run when query is provided
 	useEffect(() => {
 		if (query) {
 			searchBooks(query);

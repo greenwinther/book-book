@@ -4,6 +4,7 @@ import { BookWithStatus } from "../../types";
 import { useStatus } from "../../contexts/StatusContext";
 import StatusDropdown from "../StatusDropdown/StatusDropdown";
 import { fetchAverageRating } from "../../api/ratings";
+import "./BookCard.scss";
 
 const BookCard = ({ title, author, coverId, bookKey }: BookWithStatus) => {
 	const { books, addOrUpdateBook } = useStatus();
@@ -23,7 +24,7 @@ const BookCard = ({ title, author, coverId, bookKey }: BookWithStatus) => {
 
 	return (
 		<article className="book-card">
-			<Link to={`${bookKey}`} className="book-card-link">
+			<Link to={`/works/${bookKey}`} className="book-card-link">
 				<img src={coverUrl} alt={`Cover of ${title}`} className="book-cover" />
 				<div className="book-info">
 					<h3 className="book-title">{title || "Untitled"}</h3>

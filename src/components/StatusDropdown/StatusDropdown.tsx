@@ -1,5 +1,6 @@
 import React from "react";
 import { BookStatus } from "../../types";
+import "./StatusDropdown.scss";
 
 type Props = {
 	status?: BookStatus;

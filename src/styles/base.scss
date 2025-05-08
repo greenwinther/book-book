@@ -1,0 +1,33 @@
+@import './variables';
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  padding: 0;
+  font-family: $font-body;
+  background-color: $color-bg;
+  color: $color-text;
+  line-height: 1.6;
+  background-image: url('/path-to-paper-texture.png');
+  background-size: cover;
+}
+
+h1, h2, h3, h4 {
+  font-family: $font-heading;
+  color: $color-accent-dark;
+  margin-bottom: $spacing-unit;
+}
+
+a {
+  color: $color-accent;
+  text-decoration: none;
+
+  &:hover {
+    color: $color-accent-dark;
+  }
+}

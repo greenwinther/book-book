@@ -1,0 +1,30 @@
+@import './variables';
+
+.app-container {
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh; 
+    max-width: $max-width;
+    margin: 0 auto;
+    padding: $spacing-unit;
+  }
+
+.header {
+  padding: $spacing-unit 0;
+  border-bottom: 1px solid $color-border;
+  text-align: center;
+  background-color: $color-bg-dark;
+}
+
+.main {
+    flex: 1; 
+    padding: calc(2 * #{$spacing-unit}) 0;
+  }
+
+.footer {
+  padding: $spacing-unit;
+  border-top: 1px solid $color-border;
+  text-align: center;
+  font-size: 0.875rem;
+  color: $color-border;
+}

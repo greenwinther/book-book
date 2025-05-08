@@ -1,6 +1,6 @@
 import { useSearchParams } from "react-router-dom";
-import { useSearchBooks } from "../hooks/useSearchBooks";
-import BookCard from "../components/BookCard/BookCard";
+import { useSearchBooks } from "../../hooks/useSearchBooks";
+import BookCard from "../../components/BookCard/BookCard";
 import "./SearchResults.scss";
 
 const SearchResults = () => {
@@ -17,18 +17,17 @@ const SearchResults = () => {
 			{error && <p className="error">{error}</p>}
 			{!loading && !error && books.length === 0 && <p>No results found.</p>}
 
-			<ul className="search-grid">
+			<div className="search-grid">
 				{books.map((book) => (
-					<li key={book.bookKey}>
-						<BookCard
-							bookKey={book.bookKey}
-							title={book.title}
-							author={book.author}
-							coverId={book.coverId}
-						/>
-					</li>
+					<BookCard
+						key={book.bookKey}
+						bookKey={book.bookKey}
+						title={book.title}
+						author={book.author}
+						coverId={book.coverId}
+					/>
 				))}
-			</ul>
+			</div>
 		</div>
 	);
 };

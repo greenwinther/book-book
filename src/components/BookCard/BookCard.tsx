@@ -25,18 +25,27 @@ const BookCard = ({ title, author, coverId, bookKey }: BookWithStatus) => {
 	return (
 		<article className="book-card">
 			<Link to={`/works/${bookKey}`} className="book-card-link">
-				<img src={coverUrl} alt={`Cover of ${title}`} className="book-cover" />
-				<div className="book-info">
-					<h3 className="book-title">{title || "Untitled"}</h3>
-					<p className="book-author">{author?.join(", ") || "Unknown author"}</p>
-					{rating !== null && <p className="book-rating">Average Rating: {rating.toFixed(1)}</p>}
-				</div>
+				<img src={coverUrl} alt={`Cover of ${title}`} className="book-card__cover" />
 			</Link>
 
-			<StatusDropdown
-				status={currentStatus}
-				onChange={(newStatus) => addOrUpdateBook({ title, author, coverId, bookKey }, newStatus)}
-			/>
+			<div className="book-card__content">
+				<div className="book-card__top">
+					<div className="book-card__info">
+						<h3>{title || "Untitled"}</h3>
+						<p className="author">{author?.join(", ") || "Unknown author"}</p>
+					</div>
+					<div className="book-card__status">
+						<StatusDropdown
+							status={currentStatus}
+							onChange={(newStatus) =>
+								addOrUpdateBook({ title, author, coverId, bookKey }, newStatus)
+							}
+						/>
+					</div>
+				</div>
+
+				{rating !== null && <p className="book-card__rating">Average Rating: {rating.toFixed(1)}</p>}
+			</div>
 		</article>
 	);
 };

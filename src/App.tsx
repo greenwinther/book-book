@@ -1,11 +1,10 @@
-import "./App.scss";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import { StatusProvider } from "./contexts/StatusContext";
 import Layout from "./layout/Layout";
 import Home from "./pages/Home";
 import Profile from "./pages/profile/Profile";
-import SearchResults from "./pages/SearchResults";
-import BookDetails from "./pages/BookDetails";
+import SearchResults from "./pages/searchResults/SearchResults";
+import BookDetails from "./pages/bookDetails/BookDetails";
 
 function App() {
 	return (

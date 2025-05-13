@@ -1,9 +1,5 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import SearchInput from "./SearchInput";
-import SearchButton from "./SearchButton";
-// import SearchTypeSelect from "./SearchTypeSelect"; // future
-
 import "./SearchBar.scss";
 
 const SearchBar = () => {
@@ -19,10 +15,18 @@ const SearchBar = () => {
 	};
 
 	return (
-		<form className="search-bar" onSubmit={handleSubmit}>
-			{/* <SearchTypeSelect /> */}
-			<SearchInput value={query} onChange={(e) => setQuery(e.target.value)} />
-			<SearchButton />
+		<form className="search-bar" onSubmit={handleSubmit} role="search" aria-label="Book search form">
+			<input
+				id="book-search"
+				type="text"
+				value={query}
+				onChange={(e) => setQuery(e.target.value)}
+				placeholder="Search books..."
+				className="search-bar-input"
+			/>
+			<button type="submit" className="search-bar-button" aria-label="Submit book search">
+				Search
+			</button>
 		</form>
 	);
 };

@@ -1,0 +1,18 @@
+@use '../../styles/variables' as *;
+@use '../../styles/mixins' as *;
+
+.book-pages {
+  font-size: 0.875rem;  
+  color: $color-text-muted;  
+  margin-top: $spacing-unit;  
+  
+  display: flex;
+  align-items: center;
+  gap: 0.3rem;
+
+  span {
+    font-size: 1.2rem;
+    line-height: 1;
+  }
+}
+

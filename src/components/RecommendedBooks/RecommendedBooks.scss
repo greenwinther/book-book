@@ -1,0 +1,27 @@
+@use '../../styles/variables' as *;
+@use '../../styles/mixins' as *;
+
+.recommended-books {
+  margin-top: $spacing-unit; 
+  padding: $spacing-unit * 1.5; 
+  background: rgba($color-bg, 0.1); 
+  border: 2px solid $color-border; 
+  border-radius: 1rem;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+  font-family: $font-body; 
+  
+  h2 {
+    margin-bottom: $spacing-unit; 
+    color: $color-accent-dark; 
+    text-shadow: 0 1px 0 $color-bg; 
+    font-size: 1.8rem;
+  }
+
+  .book-list {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); 
+    gap: $spacing-unit; 
+  }
+}
+
+

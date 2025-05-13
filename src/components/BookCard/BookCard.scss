@@ -1,5 +1,5 @@
-@import '../../styles/variables';
-@import '../../styles/mixins';
+@use '../../styles/variables.scss' as *;
+@use '../../styles/mixins' as *;
 
 .book-card {
   display: flex;
@@ -17,7 +17,7 @@
     @include card-shadow;
   }
 
-  &__cover {
+  &-cover {
     flex-shrink: 0;
     width: 120px;
     height: 180px;
@@ -25,21 +25,21 @@
     border-radius: 0.25rem;
   }
 
-  &__content {
+  &-content {
     flex-grow: 1;
     display: flex;
     flex-direction: column;
     justify-content: space-between;
   }
 
-  &__top {
+  &-top {
     display: flex;
     justify-content: space-between;
     align-items: flex-start;
     margin-bottom: 0.5rem;
   }
 
-  &__info {
+  &-info {
     flex: 1;
 
     h3 {
@@ -53,13 +53,27 @@
     }
   }
 
-  &__rating {
+  &-rating {
     margin-top: 0.25rem;
     font-weight: bold;
     color: $color-accent-dark;
   }
 
-  &__status {
+  &-status {
     align-self: flex-end;
   }
+}
+.user-review-snippet {
+	margin-top: 0.5rem;
+	font-style: italic;
+	color: #5b4d3e;
+
+	.review {
+		margin-bottom: 0.25rem;
+	}
+
+	.rating {
+		font-weight: bold;
+		color: #8d5524;
+	}
 }

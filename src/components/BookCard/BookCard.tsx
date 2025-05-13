@@ -1,50 +1,59 @@
-import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import { BookWithStatus } from "../../types";
-import { useStatus } from "../../contexts/StatusContext";
 import StatusDropdown from "../StatusDropdown/StatusDropdown";
-import { fetchAverageRating } from "../../api/ratings";
+import { fetchCoverUrl } from "../../api/bookCover";
 import "./BookCard.scss";
+import BookMark from "../BookMark/BookMark";
+import AverageRating from "../AverageRating/AverageRating";
+import { useLibrary } from "../../contexts/LibraryContext";
+import BookPages from "../BookPages/BookPages";
 
-const BookCard = ({ title, author, coverId, bookKey }: BookWithStatus) => {
-	const { books, addOrUpdateBook } = useStatus();
-	const coverUrl = coverId ? `https://covers.openlibrary.org/b/id/${coverId}-M.jpg` : "/fallback-cover.jpg";
+const BookCard = ({ book, showReview = false }: { book: BookWithStatus; showReview?: boolean }) => {
+	const { books, updateStatus, toggleFavorite } = useLibrary();
+	const coverUrl = fetchCoverUrl(book.coverId, "M");
 
-	const currentStatus = books.find((b) => b.bookKey === bookKey)?.status;
+	const bookInContext = books.find((b) => b.bookKey === book.bookKey);
+	const currentStatus = bookInContext?.status;
+	const isFavorite = bookInContext?.isFavorite ?? false;
 
-	const [rating, setRating] = useState<number | null>(null);
-
-	useEffect(() => {
-		const getRating = async () => {
-			const average = await fetchAverageRating(bookKey);
-			setRating(average);
-		};
-		getRating();
-	}, [bookKey]);
+	const review = bookInContext?.review;
+	const rating = bookInContext?.rating;
 
 	return (
 		<article className="book-card">
-			<Link to={`/works/${bookKey}`} className="book-card-link">
-				<img src={coverUrl} alt={`Cover of ${title}`} className="book-card__cover" />
+			<Link to={`/book/${book.bookKey}`} className="book-card-link">
+				<img src={coverUrl} alt={`Cover of ${book.title}`} className="book-card-cover" />
 			</Link>
 
-			<div className="book-card__content">
-				<div className="book-card__top">
-					<div className="book-card__info">
-						<h3>{title || "Untitled"}</h3>
-						<p className="author">{author?.join(", ") || "Unknown author"}</p>
+			<div className="book-card-content">
+				<div className="book-card-top">
+					<div className="book-card-info">
+						<h3>{book.title || "Untitled"}</h3>
+						<p className="author">{book.author?.join(", ") || "Unknown author"}</p>
+						<BookPages bookKey={book.bookKey} />
 					</div>
-					<div className="book-card__status">
+
+					<div className="book-card-status">
 						<StatusDropdown
 							status={currentStatus}
-							onChange={(newStatus) =>
-								addOrUpdateBook({ title, author, coverId, bookKey }, newStatus)
-							}
+							onChange={(newStatus) => updateStatus(book, newStatus)}
 						/>
+
+						<BookMark isFavorite={isFavorite} onToggle={() => toggleFavorite(book)} />
 					</div>
 				</div>
 
-				{rating !== null && <p className="book-card__rating">Average Rating: {rating.toFixed(1)}</p>}
+				<AverageRating bookKey={book.bookKey} />
+				{showReview && currentStatus === "finished" && (review || rating) && (
+					<div className="user-review-snippet">
+						{review && (
+							<p className="review">
+								{review.length > 100 ? review.slice(0, 100) + "…" : review}
+							</p>
+						)}
+						{rating && <p className="rating">⭐ {rating.toFixed(1)}</p>}
+					</div>
+				)}
 			</div>
 		</article>
 	);

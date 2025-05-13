@@ -1,7 +1,7 @@
-export const fetchAuthorName = async (authorKey: string): Promise<string> => {
+const fetchAuthorName = async (authorKey: string): Promise<string> => {
 	try {
-		const res = await fetch(`https://openlibrary.org${authorKey}.json`);
-		const data = await res.json();
+		const response = await fetch(`https://openlibrary.org${authorKey}.json`);
+		const data = await response.json();
 		return data.name;
 	} catch (err) {
 		console.error(`Failed to fetch author ${authorKey}`, err);
@@ -9,6 +9,5 @@ export const fetchAuthorName = async (authorKey: string): Promise<string> => {
 	}
 };
 
-export const fetchAuthorNames = async (authors: { author: { key: string } }[]): Promise<string[]> => {
-	return Promise.all(authors.map(({ author }) => fetchAuthorName(author.key)));
-};
+export const fetchAuthorNames = async (authors: { author: { key: string } }[]): Promise<string[]> =>
+	Promise.all(authors.map(({ author }) => fetchAuthorName(author.key)));

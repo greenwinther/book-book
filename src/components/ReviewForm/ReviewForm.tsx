@@ -1,32 +1,35 @@
-// src/components/ReviewForm/ReviewForm.tsx
-import { useState, useEffect, FormEvent } from "react";
-import "./ReviewForm.scss";
+import { useState } from "react";
+import { Book } from "../../types";
+import { useLibrary } from "../../contexts/LibraryContext";
+import ReviewDisplay from "../ReviewDisplay/ReviewDisplay";
 
-type ReviewFormProps = {
-	bookKey: string;
-	initialReview?: string;
-	initialRating?: number;
-	onSubmit: (review: string, rating: number) => void;
+type Props = {
+	book: Book;
 };
 
-const ReviewForm = ({ bookKey, initialReview = "", initialRating = 0, onSubmit }: ReviewFormProps) => {
-	const [review, setReview] = useState(initialReview);
-	const [rating, setRating] = useState(initialRating);
+const ReviewForm = ({ book }: Props) => {
+	const { updateReview } = useLibrary();
 
-	useEffect(() => {
-		setReview(initialReview);
-		setRating(initialRating);
-	}, [initialReview, initialRating, bookKey]);
+	const [review, setReview] = useState("");
+	const [rating, setRating] = useState("");
 
-	const handleSubmit = (e: FormEvent) => {
+	const handleSubmit = (e: React.FormEvent) => {
 		e.preventDefault();
-		onSubmit(review, rating);
+		const parsedRating = parseFloat(rating);
+		if (isNaN(parsedRating) || parsedRating < 0 || parsedRating > 5) {
+			alert("Rating must be a number between 0 and 5.");
+			return;
+		}
+		updateReview(book.bookKey, review, parsedRating);
+
+		setReview("");
+		setRating("");
 	};
 
 	return (
-		<div className="review-form">
-			<h3>Review</h3>
-			<form onSubmit={handleSubmit}>
+		<div className="review-form-container">
+			<form onSubmit={handleSubmit} className="review-form">
+				<h3>Leave a Review</h3>
 				<textarea
 					value={review}
 					onChange={(e) => setReview(e.target.value)}
@@ -34,13 +37,16 @@ const ReviewForm = ({ bookKey, initialReview = "", initialRating = 0, onSubmit }
 				/>
 				<input
 					type="number"
-					min={1}
-					max={5}
+					step="0.1"
+					min="0"
+					max="5"
 					value={rating}
-					onChange={(e) => setRating(Number(e.target.value))}
+					onChange={(e) => setRating(e.target.value)}
+					placeholder="Rating (0.0 - 5.0)"
 				/>
 				<button type="submit">Save Review</button>
 			</form>
+			<ReviewDisplay book={book} />
 		</div>
 	);
 };

@@ -1,5 +1,4 @@
-@import './variables';
-@import './base';
-@import './layout';
+@use './index' as *;
+@use './base';
+@use './layout';
 
-  

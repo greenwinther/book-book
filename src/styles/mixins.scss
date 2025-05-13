@@ -1,18 +1,18 @@
+@use './variables' as *;
 
 @mixin card-shadow {
-    box-shadow: 0 2px 6px rgba(44, 30, 26, 0.2);
-  }
-  
-  @mixin fancy-heading {
-    font-family: $font-heading;
-    font-weight: bold;
-    color: $color-accent-dark;
-    letter-spacing: 0.05em;
-  }
-  
-  @mixin flex-center {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-  }
-  
+  box-shadow: 0 2px 6px rgba(44, 30, 26, 0.2);
+}
+
+@mixin fancy-heading {
+  font-family: $font-heading;
+  font-weight: bold;
+  color: $color-accent-dark;
+  letter-spacing: 0.05em;
+}
+
+@mixin flex-center {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}

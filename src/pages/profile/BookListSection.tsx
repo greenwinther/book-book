@@ -5,9 +5,10 @@ type BookListSectionProps = {
 	title: string;
 	books: BookWithStatus[];
 	emptyMessage: string;
+	showReview?: boolean;
 };
 
-export const BookListSection = ({ title, books, emptyMessage }: BookListSectionProps) => {
+export const BookListSection = ({ title, books, emptyMessage, showReview = false }: BookListSectionProps) => {
 	return (
 		<section className="book-list-section">
 			<h2>
@@ -17,7 +18,7 @@ export const BookListSection = ({ title, books, emptyMessage }: BookListSectionP
 				<ul>
 					{books.map((book) => (
 						<li key={book.bookKey}>
-							<BookCard {...book} />
+							<BookCard book={book} showReview={showReview} />
 						</li>
 					))}
 				</ul>

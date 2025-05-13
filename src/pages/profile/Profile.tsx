@@ -1,9 +1,10 @@
-import { useStatus } from "../../contexts/StatusContext";
+import { useLibrary } from "../../contexts/LibraryContext";
 import { BookListSection } from "./BookListSection";
 import "./Profile.scss";
+import ProfileStats from "./ProfileStats";
 
 const Profile = () => {
-	const { getBooksByStatus, getFavoriteBooks } = useStatus();
+	const { getBooksByStatus, getFavoriteBooks } = useLibrary();
 
 	const favoriteBooks = getFavoriteBooks();
 	const plannedBooks = getBooksByStatus("plan");
@@ -23,6 +24,7 @@ const Profile = () => {
 				<p>You haven't added any books yet. Start by exploring the library!</p>
 			) : (
 				<>
+					<ProfileStats />
 					<BookListSection
 						title="Favorites"
 						books={favoriteBooks}
@@ -45,6 +47,7 @@ const Profile = () => {
 						title="Finished Books"
 						books={finishedBooks}
 						emptyMessage="No finished books yet."
+						showReview={true}
 					/>
 				</>
 			)}

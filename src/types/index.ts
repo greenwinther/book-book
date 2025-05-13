@@ -10,7 +10,7 @@ export type Book = {
 	firstSentence?: string;
 	description?: string;
 	genres?: string[];
-	pageCount?: number;
+	bookPages?: number;
 };
 
 // Represents a book with user-specific metadata (status and/or favorite)

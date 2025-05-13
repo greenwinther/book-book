@@ -1,28 +1,30 @@
 import React, { createContext, useContext, useState } from "react";
 import { Book, BookWithStatus, BookStatus } from "../types";
 
-// Context interface defining all available functions and data
-type StatusContextType = {
+// Context type defining all available functions and data
+type LibraryContextType = {
 	books: BookWithStatus[];
 	addOrUpdateBook: (book: Book, status?: BookStatus, isFavorite?: boolean) => void;
 	removeBook: (bookId: string) => void;
+	updateStatus: (book: Book, status: BookStatus) => void;
+	toggleFavorite: (book: Book) => void;
+	updateReview: (bookId: string, review: string, rating: number) => void;
 	getBooksByStatus: (status: BookStatus) => BookWithStatus[];
 	getFavoriteBooks: () => BookWithStatus[];
-	updateBookReview: (bookId: string, review: string, rating: number) => void;
+	getPagesRead: () => number;
 };
 
 // Creating the context with a default value of undefined
-const StatusContext = createContext<StatusContextType | undefined>(undefined);
+const LibraryContext = createContext<LibraryContextType | undefined>(undefined);
 
-type StatusProviderProps = {
+type LibraryProviderProps = {
 	children: React.ReactNode;
 };
 
 // Context provider component
-export const StatusProvider = ({ children }: StatusProviderProps) => {
+export const LibraryProvider = ({ children }: LibraryProviderProps) => {
 	// Main state storing all books user has interacted with (status, favorite, etc.)
 	const [books, setBooks] = useState<BookWithStatus[]>([]);
-
 	// Adds a new book or updates an existing one with new status/favorite info.
 	const addOrUpdateBook = (book: Book, status?: BookStatus, isFavorite?: boolean) => {
 		setBooks((prevBooks) => {
@@ -36,6 +38,7 @@ export const StatusProvider = ({ children }: StatusProviderProps) => {
 								...b,
 								status: status ?? b.status,
 								isFavorite: isFavorite ?? b.isFavorite,
+								bookPages: book.bookPages,
 						  }
 						: b
 				);
@@ -46,50 +49,72 @@ export const StatusProvider = ({ children }: StatusProviderProps) => {
 		});
 	};
 
+	const updateStatus = (book: Book, status: BookStatus) => {
+		const existing = books.find((b) => b.bookKey === book.bookKey);
+		addOrUpdateBook(book, status, existing?.isFavorite);
+	};
+
+	const toggleFavorite = (book: Book) => {
+		const existing = books.find((b) => b.bookKey === book.bookKey);
+		addOrUpdateBook(book, existing?.status, !existing?.isFavorite);
+	};
+
+	// Updates the review and rating of a specific book
+	const updateReview = (bookId: string, review: string, rating: number) => {
+		setBooks((prevBooks) => prevBooks.map((b) => (b.bookKey === bookId ? { ...b, review, rating } : b)));
+	};
+
 	// Removes a book from the state completely using its key
 	const removeBook = (bookId: string) => {
-		setBooks((prevBooks) => prevBooks.filter((book) => book.bookKey !== bookId));
+		setBooks((prevBooks) => prevBooks.filter((b) => b.bookKey !== bookId));
 	};
 
 	// Returns all books with a specific reading status (e.g., "reading", "finished")
 	const getBooksByStatus = (status: BookStatus) => {
-		return books.filter((book) => book.status === status);
+		return books.filter((b) => b.status === status);
 	};
 
 	// Returns all books marked as favorites
 	const getFavoriteBooks = () => {
-		return books.filter((book) => book.isFavorite);
+		return books.filter((b) => b.isFavorite);
 	};
 
-	// Updates the review and rating of a specific book
-	const updateBookReview = (bookId: string, review: string, rating: number) => {
-		setBooks((prevBooks) =>
-			prevBooks.map((book) => (book.bookKey === bookId ? { ...book, review, rating } : book))
-		);
+	const getPagesRead = () => {
+		const finishedBooks = books.filter((book) => book.status === "finished");
+		console.log("Finished books:", finishedBooks);
+
+		const totalPages = finishedBooks.reduce((total, book) => {
+			return total + (book.bookPages ?? 0);
+		}, 0);
+
+		return totalPages;
 	};
 
 	// Provide all functions and state to the component tree
 	return (
-		<StatusContext.Provider
+		<LibraryContext.Provider
 			value={{
 				books,
 				addOrUpdateBook,
 				removeBook,
+				updateStatus,
+				toggleFavorite,
+				updateReview,
 				getBooksByStatus,
 				getFavoriteBooks,
-				updateBookReview,
+				getPagesRead,
 			}}
 		>
 			{children}
-		</StatusContext.Provider>
+		</LibraryContext.Provider>
 	);
 };
 
 // Custom hook for accessing the status context safely
-export const useStatus = (): StatusContextType => {
-	const context = useContext(StatusContext);
+export const useLibrary = (): LibraryContextType => {
+	const context = useContext(LibraryContext);
 	if (!context) {
-		throw new Error("useStatus must be used within a StatusProvider");
+		throw new Error("useLibrary must be used within a LibraryProvider");
 	}
 	return context;
 };

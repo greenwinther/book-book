@@ -19,13 +19,7 @@ const SearchResults = () => {
 
 			<div className="search-grid">
 				{books.map((book) => (
-					<BookCard
-						key={book.bookKey}
-						bookKey={book.bookKey}
-						title={book.title}
-						author={book.author}
-						coverId={book.coverId}
-					/>
+					<BookCard key={book.bookKey} book={book} />
 				))}
 			</div>
 		</div>

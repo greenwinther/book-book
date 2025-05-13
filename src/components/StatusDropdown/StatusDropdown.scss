@@ -1,46 +1,29 @@
-@import '../../styles/variables.scss';
+@use '../../styles/variables/' as *;
 
 .status-dropdown {
-    appearance: none;
-    -webkit-appearance: none;
-    -moz-appearance: none;
-    background-color: $color-bg-dark;
-    color: $color-text;
-    border: 1px solid $color-border;
-    border-radius: 0.25rem;
-    padding: 0.8rem 1rem;
-    font-family: $font-body;
-    font-size: 1rem;
-    width: 100%;
-    max-width: 200px;
-    cursor: pointer;
-    transition: all 0.3s ease-in-out;
-  
+  appearance: none;
+  background-color: $color-bg-dark;
+  color: $color-text;
+  border: 1px solid $color-border;
+  border-radius: 0.25rem;
+  padding: 0.8rem 1rem;
+  font-family: $font-body;
+  font-size: 1rem;
+  width: 100%;
+  max-width: 200px;
+  cursor: pointer;
+  transition: all 0.3s ease-in-out;
+  position: relative;
 
-    &:focus {
-      border-color: $color-accent;
-      outline: none;
-    }
-  
-
-    option {
-      background-color: $color-bg;
-      color: $color-text;
-      padding: 0.8rem 1rem;
-      cursor: pointer;
-  
-      &:hover {
-        background-color: $color-accent-dark;
-        color: $color-text;
-      }
-    }
-  
-    &::-webkit-scrollbar {
-      display: none;
-    }
-  
-    &::-webkit-dropdown-arrow {
-      display: none;
-    }
+  &:focus {
+    border-color: $color-accent;
+    outline: none;
   }
-  
+
+  option {
+    background-color: $color-bg;
+    color: $color-text;
+    padding: 0.8rem 1rem;
+    cursor: pointer;
+  }
+}

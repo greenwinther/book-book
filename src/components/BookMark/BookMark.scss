@@ -1,0 +1,30 @@
+@use '../../styles/variables' as *;
+@use '../../styles/mixins' as *;
+
+.bookmark {
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  padding: $spacing-unit;
+  transition: transform 0.2s ease;
+
+  &:hover {
+    transform: scale(1.1);
+  }
+
+  .bookmark-icon {
+    width: 40px;
+    height: 40px;
+    stroke: $color-text-muted;
+    stroke-width: 2;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+    fill: none;
+    transition: fill 0.3s ease, stroke 0.3s ease;
+  }
+
+  &.bookmarked .bookmark-icon {
+    fill: $color-accent; 
+    stroke: $color-accent;  
+  }
+}

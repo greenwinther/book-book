@@ -1,4 +1,4 @@
-@import '../../styles/variables.scss';
+@use '../../styles/variables/' as *;
 
 .book-details {
     display: flex;
@@ -54,15 +54,41 @@
       }
   
       .description {
-        font-size: 1rem;
-        line-height: 1.5;
+        p {
+          line-height: 1.6;
+          margin-bottom: 1rem;
+        }
+
+        h3 {
+        font-size: 1.2rem;
+        color: #444;
+        margin-top: 1.5rem;
+        }
+
+        strong {
+          font-weight: bold;
+        }
+
+        em {
+          font-style: italic;
+        }
       }
     }
   
-    .review-section {
-      border-top: 1px solid $color-border;
-      padding-top: 1rem;
-    }
+
+}
+.genres ul {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+
+  li {
+    background: #eee;
+    padding: 0.3rem 0.6rem;
+    border-radius: 1rem;
+    font-size: 0.85rem;
   }
+}
+
   
   

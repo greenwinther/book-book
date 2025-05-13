@@ -5,18 +5,19 @@ import "./Layout.scss";
 const Layout = () => {
 	return (
 		<div className="app-container">
-			<header className="navbar">
-				<div className="navbar-container">
+			<header className="header">
+				<div className="navbar">
 					<Link to="/" className="navbar-link">
 						Home
 					</Link>
-					<SearchBar />
-					<Link to="/profile" className="navbar-link">
+					<Link to="profile" className="navbar-link">
 						Profile
 					</Link>
 				</div>
+				<div className="search-bar-container">
+					<SearchBar />
+				</div>
 			</header>
-
 			<main className="main">
 				<Outlet />
 			</main>

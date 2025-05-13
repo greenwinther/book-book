@@ -1,0 +1,37 @@
+@use '../../styles/variables' as *;
+@use '../../styles/mixins' as *;
+
+.potion-loader {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 100vh;
+  font-family: $font-heading; 
+  text-align: center;
+  gap: $spacing-unit;
+  
+  .potion-image {
+    width: 100px;
+    height: auto;
+    animation: float 2.5s ease-in-out infinite;
+  }
+
+  .loading-text {
+    font-size: 1.2rem;
+    letter-spacing: 1px;
+    color: $color-accent-dark;
+  }
+
+  @keyframes float {
+    0% {
+      transform: translateY(0);
+    }
+    50% {
+      transform: translateY(-10px);
+    }
+    100% {
+      transform: translateY(0);
+    }
+  }
+}

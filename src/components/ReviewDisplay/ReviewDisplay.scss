@@ -1,0 +1,35 @@
+@use '../../styles/variables' as *;
+@use '../../styles/mixins' as *;
+
+.review-display {
+  margin-top: $spacing-unit;
+  font-family: $font-body;
+
+  h3 {
+    color: $color-accent-dark;
+    font-size: 1.2rem;
+    margin-bottom: 0.5rem;
+  }
+
+  p {
+    line-height: 1.5;
+    margin-bottom: 0.5rem;
+
+    strong {
+      color: $color-accent;
+    }
+  }
+
+  &-rating {
+    color: $color-gold;
+    font-size: 1.1rem;
+  }
+
+  &-text {
+    background-color: $color-bg-light;
+    border-left: 4px solid $color-border;
+    padding: 0.75rem;
+    border-radius: 4px;
+    font-style: italic;
+  }
+}

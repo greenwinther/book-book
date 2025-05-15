@@ -25,7 +25,7 @@ const RecommendedBooks = ({ subject = "fantasy", title = "Recommended Books" }: 
 		fetchBooks();
 	}, [subject]);
 
-	if (loading) return <PotionLoader />;
+	if (loading) return <PotionLoader title={"Brewing up some books..."} />;
 
 	return (
 		<section className="recommended-books">

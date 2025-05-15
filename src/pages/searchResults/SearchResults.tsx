@@ -2,6 +2,7 @@ import { useSearchParams } from "react-router-dom";
 import { useSearchBooks } from "../../hooks/useSearchBooks";
 import BookCard from "../../components/BookCard/BookCard";
 import "./SearchResults.scss";
+import PotionLoader from "../../components/PotionLoader/PotionLoader";
 
 const SearchResults = () => {
 	const [searchParams] = useSearchParams();
@@ -13,7 +14,7 @@ const SearchResults = () => {
 		<div className="search-results">
 			<h1>Search Results for “{query}”</h1>
 
-			{loading && <p>Loading...</p>}
+			{loading && <PotionLoader title={"Brewing up some books..."} />}
 			{error && <p className="error">{error}</p>}
 			{!loading && !error && books.length === 0 && <p>No results found.</p>}
 

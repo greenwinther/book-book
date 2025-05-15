@@ -11,6 +11,7 @@ import ReviewDisplay from "../ReviewDisplay/ReviewDisplay";
 
 const BookCard = ({ book, showReview = false }: { book: BookWithStatus; showReview?: boolean }) => {
 	const { books, updateStatus, toggleFavorite } = useLibrary();
+	const { authors } = useAuthorContext();
 	const coverUrl = fetchBookCover(book.coverId, "M");
 
 	const bookInContext = books.find((b) => b.bookKey === book.bookKey);
@@ -58,3 +59,6 @@ const BookCard = ({ book, showReview = false }: { book: BookWithStatus; showRevi
 };
 
 export default BookCard;
+function useAuthorContext(): { authors: any } {
+	throw new Error("Function not implemented.");
+}

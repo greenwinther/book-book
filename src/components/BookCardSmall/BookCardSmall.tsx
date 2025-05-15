@@ -1,27 +1,20 @@
 import "./BookCardSmall.scss";
-import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import { useLibrary } from "../../contexts/LibraryContext";
-import { BookStatus, BookWithStatus } from "../../types";
+import { BookWithStatus } from "../../types";
 import fetchBookCover from "../../api/fetchBookCover";
 import StatusDropdown from "../StatusDropdown/StatusDropdown";
 import BookMark from "../BookMark/BookMark";
 
 const BookCardSmall = ({ book }: { book: BookWithStatus }) => {
 	const { books, updateStatus, toggleFavorite } = useLibrary();
-	const [currentStatus, setCurrentStatus] = useState<BookStatus | undefined>(book.status);
-	const [isFavorite, setIsFavorite] = useState<boolean>(book.isFavorite ?? false);
+	const coverUrl = fetchBookCover(book.coverId, "M");
 
-	useEffect(() => {
-		const bookInContext = books.find((b) => b.bookKey === book.bookKey);
-		if (bookInContext) {
-			setCurrentStatus(bookInContext.status);
-			setIsFavorite(bookInContext.isFavorite ?? false);
-		}
-	}, [books, book.bookKey]);
+	const bookInContext = books.find((b) => b.bookKey === book.bookKey);
+	const currentStatus = bookInContext?.status;
+	const isFavorite = bookInContext?.isFavorite ?? false;
 
 	const displayAuthors = book.author?.slice(0, 2).join(", ") || "Unknown author";
-	const coverUrl = fetchBookCover(book.coverId, "M");
 
 	return (
 		<article className="book-card-small">
@@ -41,17 +34,11 @@ const BookCardSmall = ({ book }: { book: BookWithStatus }) => {
 				<div className="book-card-small-status">
 					<StatusDropdown
 						status={currentStatus}
-						onChange={(newStatus) => {
-							setCurrentStatus(newStatus);
-							updateStatus(book, newStatus);
-						}}
+						onChange={(newStatus) => updateStatus(book, newStatus)}
 					/>
 					<BookMark
 						isFavorite={isFavorite}
-						onToggle={() => {
-							setIsFavorite(!isFavorite);
-							toggleFavorite(book);
-						}}
+						onToggle={() => toggleFavorite(book)}
 						className="book-card-small-bookmark"
 					/>
 				</div>

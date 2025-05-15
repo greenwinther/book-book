@@ -1,8 +1,7 @@
+import "./RecommendedBooks.scss";
 import { useEffect, useState } from "react";
 import { Book } from "../../types";
-import { fetchRecommendedBooks } from "../../api/recommendedBooks";
-
-import "./RecommendedBooks.scss";
+import fetchBookBySubject from "../../api/fetchBookBySubject";
 import PotionLoader from "../PotionLoader/PotionLoader";
 import BookCardSmall from "../BookCardSmall/BookCardSmall";
 
@@ -18,7 +17,7 @@ const RecommendedBooks = ({ subject = "fantasy", title = "Recommended Books" }: 
 	useEffect(() => {
 		const fetchBooks = async () => {
 			setLoading(true);
-			const recommended = await fetchRecommendedBooks(subject);
+			const recommended = await fetchBookBySubject(subject);
 			setBooks(recommended);
 			setLoading(false);
 		};

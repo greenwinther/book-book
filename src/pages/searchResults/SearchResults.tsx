@@ -1,7 +1,7 @@
+import "./SearchResults.scss";
 import { useSearchParams } from "react-router-dom";
 import { useSearchBooks } from "../../hooks/useSearchBooks";
 import BookCard from "../../components/BookCard/BookCard";
-import "./SearchResults.scss";
 import PotionLoader from "../../components/PotionLoader/PotionLoader";
 
 const SearchResults = () => {

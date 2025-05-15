@@ -1,6 +1,6 @@
+import "./Profile.scss";
 import { useLibrary } from "../../contexts/LibraryContext";
 import { BookListSection } from "./BookListSection";
-import "./Profile.scss";
 import ProfileStats from "./ProfileStats";
 
 const Profile = () => {

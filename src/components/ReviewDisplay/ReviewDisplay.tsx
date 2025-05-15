@@ -1,6 +1,6 @@
+import "./ReviewDisplay.scss";
 import { Book } from "../../types";
 import { useLibrary } from "../../contexts/LibraryContext";
-import "./ReviewDisplay.scss";
 
 type ReviewDisplayProps = {
 	book: Book;

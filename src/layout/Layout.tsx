@@ -1,6 +1,6 @@
+import "./Layout.scss";
 import { Outlet, Link } from "react-router-dom";
 import SearchBar from "../components/SearchBar/SearchBar";
-import "./Layout.scss";
 
 const Layout = () => {
 	return (

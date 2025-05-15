@@ -1,7 +1,7 @@
+import "./ReviewForm.scss";
 import { useState } from "react";
 import { Book } from "../../types";
 import { useLibrary } from "../../contexts/LibraryContext";
-import "./ReviewForm.scss";
 
 type ReviewFormProps = {
 	book: Book;

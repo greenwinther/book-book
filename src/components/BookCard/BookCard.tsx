@@ -1,11 +1,11 @@
+import "./BookCard.scss";
 import { Link } from "react-router-dom";
 import { BookWithStatus } from "../../types";
+import { useLibrary } from "../../contexts/LibraryContext";
 import StatusDropdown from "../StatusDropdown/StatusDropdown";
-import { fetchCoverUrl } from "../../api/bookCover";
-import "./BookCard.scss";
+import fetchCoverUrl from "../../api/fetchBookCover";
 import BookMark from "../BookMark/BookMark";
 import AverageRating from "../AverageRating/AverageRating";
-import { useLibrary } from "../../contexts/LibraryContext";
 import BookPages from "../BookPages/BookPages";
 import ReviewDisplay from "../ReviewDisplay/ReviewDisplay";
 

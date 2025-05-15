@@ -1,15 +1,15 @@
+import "./BookDetails.scss";
 import { useParams } from "react-router-dom";
 import { useEffect, useState } from "react";
-import ReactMarkdown from "react-markdown";
+import { useLibrary } from "../../contexts/LibraryContext";
 import { Book, BookStatus } from "../../types";
+import ReactMarkdown from "react-markdown";
 import StatusDropdown from "../../components/StatusDropdown/StatusDropdown";
-import "./BookDetails.scss";
-import { fetchBookByKey } from "../../api/book";
+import fetchBookByKey from "../../api/fetchBookByKey";
 import ReviewForm from "../../components/ReviewForm/ReviewForm";
-import { fetchCoverUrl } from "../../api/bookCover";
+import fetchBookCover from "../../api/fetchBookCover";
 import AverageRating from "../../components/AverageRating/AverageRating";
 import BookMark from "../../components/BookMark/BookMark";
-import { useLibrary } from "../../contexts/LibraryContext";
 import BookPages from "../../components/BookPages/BookPages";
 import PotionLoader from "../../components/PotionLoader/PotionLoader";
 import ReviewDisplay from "../../components/ReviewDisplay/ReviewDisplay";
@@ -50,7 +50,7 @@ const BookDetails = () => {
 	const bookInContext = books.find((b) => b.bookKey === book.bookKey);
 	const currentStatus: BookStatus | undefined = bookInContext?.status;
 	const isFavorite = bookInContext?.isFavorite ?? false;
-	const coverUrl = fetchCoverUrl(book.coverId, "L");
+	const coverUrl = fetchBookCover(book.coverId, "L");
 
 	return (
 		<div className="book-details">

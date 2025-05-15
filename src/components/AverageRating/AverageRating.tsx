@@ -1,6 +1,6 @@
-import { useEffect, useState } from "react";
-import { fetchAverageRating } from "../../api/ratings";
 import "./AverageRating.scss";
+import { useEffect, useState } from "react";
+import fetchAverageRating from "../../api/fetchAverageRating";
 
 type RatingProps = {
 	bookKey: string;

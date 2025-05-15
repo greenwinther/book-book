@@ -1,7 +1,7 @@
-import { useEffect, useState } from "react";
-import { fetchPages } from "../../api/bookPages";
 import "./BookPages.scss";
+import { useEffect, useState } from "react";
 import { useLibrary } from "../../contexts/LibraryContext";
+import fetchBookPages from "../../api/fetchBookPages";
 
 type BookPagesProps = {
 	bookKey: string;
@@ -14,7 +14,7 @@ const BookPages = ({ bookKey }: BookPagesProps) => {
 
 	useEffect(() => {
 		const getPages = async () => {
-			const pageCount = await fetchPages(bookKey);
+			const pageCount = await fetchBookPages(bookKey);
 			setPages(pageCount);
 
 			if (pageCount) {

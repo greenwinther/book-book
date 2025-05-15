@@ -1,4 +1,4 @@
-import React, { createContext, useContext, useState } from "react";
+import { createContext, useContext, useState } from "react";
 import { Book, BookWithStatus, BookStatus } from "../types";
 
 // Context type defining all available functions and data

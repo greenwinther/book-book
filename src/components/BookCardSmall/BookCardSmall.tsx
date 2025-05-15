@@ -1,9 +1,9 @@
+import "./BookCardSmall.scss";
 import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import { useLibrary } from "../../contexts/LibraryContext";
 import { BookStatus, BookWithStatus } from "../../types";
-import { fetchCoverUrl } from "../../api/bookCover";
-import "./BookCardSmall.scss";
+import fetchBookCover from "../../api/fetchBookCover";
 import StatusDropdown from "../StatusDropdown/StatusDropdown";
 import BookMark from "../BookMark/BookMark";
 
@@ -21,7 +21,7 @@ const BookCardSmall = ({ book }: { book: BookWithStatus }) => {
 	}, [books, book.bookKey]);
 
 	const displayAuthors = book.author?.slice(0, 2).join(", ") || "Unknown author";
-	const coverUrl = fetchCoverUrl(book.coverId, "M");
+	const coverUrl = fetchBookCover(book.coverId, "M");
 
 	return (
 		<article className="book-card-small">

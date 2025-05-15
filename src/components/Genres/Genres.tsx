@@ -1,5 +1,5 @@
-import React from "react";
 import "./Genres.scss";
+import React from "react";
 
 type GenresProps = {
 	genres?: string[];

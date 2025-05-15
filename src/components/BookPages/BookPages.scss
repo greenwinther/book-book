@@ -3,12 +3,11 @@
 
 .book-pages {
   font-size: 0.875rem;  
-  color: $color-text-muted;  
-  margin-top: $spacing-unit;  
-  
+  color: $color-text-muted;
   display: flex;
   align-items: center;
   gap: 0.3rem;
+  height: auto;
 
   span {
     font-size: 1.2rem;

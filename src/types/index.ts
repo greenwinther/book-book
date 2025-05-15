@@ -22,7 +22,13 @@ export type BookWithStatus = Book & {
 };
 
 export type AuthorResponse = {
+	key: string;
 	name?: string;
+	fuller_name?: string;
+	bio?: string | { value: string };
+	birth_date?: string;
+	death_date?: string;
+	photos?: number[];
 };
 
 export type RatingResponse = {

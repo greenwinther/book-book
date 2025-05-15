@@ -5,6 +5,7 @@ import Profile from "./pages/profile/Profile";
 import SearchResults from "./pages/searchResults/SearchResults";
 import BookDetails from "./pages/bookDetails/BookDetails";
 import { LibraryProvider } from "./contexts/LibraryContext";
+import AuthorDetails from "./pages/authorDetails/AuthorDetails";
 
 function App() {
 	return (
@@ -15,6 +16,7 @@ function App() {
 						<Route index element={<Home />} />
 						<Route path="profile" element={<Profile />} />
 						<Route path="book/:bookKey" element={<BookDetails />} />
+						<Route path="author/:authorKey" element={<AuthorDetails />} />
 						<Route path="search" element={<SearchResults />} />
 					</Route>
 				</Routes>

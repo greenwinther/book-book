@@ -1,5 +1,5 @@
 import { Book, BookWorkResponse } from "../types";
-import fetchAuthorNames from "./fetchAuthorName";
+import fetchAuthorNames from "./fetchAuthorNames";
 import fetchBookPages from "./fetchBookPages";
 
 const fetchBookByKey = async (bookKey: string): Promise<Book | null> => {

@@ -45,7 +45,6 @@ const BookCardSmall = ({ book }: { book: BookWithStatus }) => {
 							setCurrentStatus(newStatus);
 							updateStatus(book, newStatus);
 						}}
-						className="book-card-small-status"
 					/>
 					<BookMark
 						isFavorite={isFavorite}

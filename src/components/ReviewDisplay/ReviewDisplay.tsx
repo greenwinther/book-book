@@ -1,19 +1,24 @@
 import { Book } from "../../types";
 import { useLibrary } from "../../contexts/LibraryContext";
+import "./ReviewDisplay.scss";
 
-type Props = {
+type ReviewDisplayProps = {
 	book: Book;
+	maxWords?: number;
 };
 
-const ReviewDisplay = ({ book }: Props) => {
+const ReviewDisplay = ({ book, maxWords }: ReviewDisplayProps) => {
 	const { books } = useLibrary();
 	const existing = books.find((b) => b.bookKey === book.bookKey);
 
 	if (!existing?.review && !existing?.rating) return null;
 
+	const truncatedReview = maxWords
+		? existing.review?.split(" ").slice(0, maxWords).join(" ") + "…"
+		: existing.review;
+
 	return (
 		<div className="review-display">
-			<h3>Your Review</h3>
 			{existing.rating && (
 				<p className="review-display-rating">
 					<strong>Rating:</strong> {existing.rating.toFixed(1)} / 5
@@ -21,7 +26,7 @@ const ReviewDisplay = ({ book }: Props) => {
 			)}
 			{existing.review && (
 				<p className="review-display-text">
-					<strong>Comment:</strong> {existing.review}
+					<strong>Comment:</strong> {truncatedReview}
 				</p>
 			)}
 		</div>

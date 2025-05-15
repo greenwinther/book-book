@@ -2,7 +2,7 @@ import "./BookDetails.scss";
 import { useParams } from "react-router-dom";
 import { useEffect, useState } from "react";
 import { useLibrary } from "../../contexts/LibraryContext";
-import { Book, BookStatus } from "../../types";
+import { Book, BookWithStatus } from "../../types";
 import ReactMarkdown from "react-markdown";
 import StatusDropdown from "../../components/StatusDropdown/StatusDropdown";
 import fetchBookByKey from "../../api/fetchBookByKey";
@@ -17,71 +17,71 @@ import Genres from "../../components/Genres/Genres";
 
 const BookDetails = () => {
 	const { bookKey } = useParams<{ bookKey: string }>();
-	const [book, setBook] = useState<Book | null>(null);
+	const [fetchedBook, setFetchedBook] = useState<Book | null>(null);
 	const [loading, setLoading] = useState(true);
-
 	const { books, updateStatus, toggleFavorite } = useLibrary();
 
 	useEffect(() => {
-		const getBook = async () => {
+		const loadBook = async () => {
 			if (!bookKey) return;
-			const fetched = await fetchBookByKey(bookKey);
-			setBook(fetched);
-			setLoading(false);
+			const bookInContext = books.find((b) => b.bookKey === bookKey);
+			if (bookInContext) {
+				setFetchedBook(bookInContext);
+				setLoading(false);
+			} else {
+				const fetched = await fetchBookByKey(bookKey);
+				setFetchedBook(fetched);
+				setLoading(false);
+			}
 		};
-		getBook();
-	}, [bookKey]);
-
-	useEffect(() => {
-		if (!book) return;
-
-		const updatedBook = books.find((b) => b.bookKey === book.bookKey);
-		if (updatedBook) {
-			setBook((prevBook) => ({
-				...prevBook!,
-				...updatedBook,
-			}));
-		}
-	}, [books, book?.bookKey]);
+		loadBook();
+	}, [bookKey, books]);
 
 	if (loading) return <PotionLoader title={"Brewing up the book..."} />;
-	if (!book) return <p>Book not found.</p>;
+	if (!fetchedBook) return <p>Book not found.</p>;
 
-	const bookInContext = books.find((b) => b.bookKey === book.bookKey);
-	const currentStatus: BookStatus | undefined = bookInContext?.status;
-	const isFavorite = bookInContext?.isFavorite ?? false;
-	const coverUrl = fetchBookCover(book.coverId, "L");
+	const bookInContext = books.find((b) => b.bookKey === fetchedBook.bookKey);
+	const mergedBook: BookWithStatus = {
+		...fetchedBook,
+		...bookInContext,
+	};
+
+	const coverUrl = fetchBookCover(mergedBook.coverId, "L");
+	const isFavorite = mergedBook.isFavorite ?? false;
+	const currentStatus = mergedBook.status;
 
 	return (
 		<div className="book-details">
 			<div className="details-top-section">
 				<div className="details-cover">
-					{book.coverId && <img src={coverUrl} alt={`Cover of ${book.title}`} />}
+					{mergedBook.coverId && <img src={coverUrl} alt={`Cover of ${mergedBook.title}`} />}
 				</div>
 				<div className="details-info">
-					<h1>{book.title}</h1>
-					<p className="author">by {book.author.join(", ")}</p>
+					<h1>{mergedBook.title}</h1>
+					<p className="author">by {mergedBook.author.join(", ")}</p>
 					<div className="description">
-						<ReactMarkdown>{book.description}</ReactMarkdown>
+						<ReactMarkdown>{mergedBook.description}</ReactMarkdown>
 					</div>
 				</div>
 				<div className="details-status">
-					<BookMark isFavorite={isFavorite} onToggle={() => toggleFavorite(book)} />
+					<BookMark isFavorite={isFavorite} onToggle={() => toggleFavorite(mergedBook)} />
 					<StatusDropdown
 						status={currentStatus}
-						onChange={(newStatus) => updateStatus(book, newStatus)}
+						onChange={(newStatus) => updateStatus(mergedBook, newStatus)}
 					/>
 				</div>
 			</div>
+
 			<div className="details-middle-section">
-				<AverageRating bookKey={book.bookKey} />
-				<BookPages bookKey={book.bookKey} />
-				{book.genres && <Genres genres={book.genres} />}
+				<AverageRating bookKey={mergedBook.bookKey} />
+				<BookPages bookKey={mergedBook.bookKey} />
+				{mergedBook.genres && <Genres genres={mergedBook.genres} />}
 			</div>
+
 			<div className="details-bottom-section">
 				<div className="review-section">
-					<ReviewForm book={book} />
-					<ReviewDisplay book={book} />
+					<ReviewForm book={mergedBook} />
+					<ReviewDisplay book={mergedBook} />
 				</div>
 			</div>
 		</div>

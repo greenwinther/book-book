@@ -20,3 +20,40 @@ export type BookWithStatus = Book & {
 	rating?: number;
 	review?: string;
 };
+
+export type AuthorResponse = {
+	name?: string;
+};
+
+export type RatingResponse = {
+	summary?: {
+		average?: number;
+	};
+};
+
+export type BookWorkResponse = {
+	key: string;
+	title: string;
+	authors?: { author: { key: string } }[];
+	covers?: number[];
+	description?: string | { value: string };
+	subjects?: string[];
+	first_sentence?: { value: string };
+};
+
+export type SubjectApiResponse = {
+	works?: {
+		key: string;
+		title: string;
+		authors?: { name: string }[];
+		cover_id?: number;
+	}[];
+};
+
+export type EditionListResponse = {
+	entries: { key: string }[];
+};
+
+export type EditionDetailsResponse = {
+	number_of_pages?: number;
+};

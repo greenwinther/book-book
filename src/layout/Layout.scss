@@ -15,16 +15,16 @@
 .navbar-link {
   font-family: $font-body;
   font-size: 1rem;
-  color: $color-text; 
+  color: $color-bg;
   text-decoration: none;
   padding: 0.5rem;
-  transition: background-color 0.2s ease, color 0.2s ease;
+  transition: background-color 0.3s ease;
   background-color: $color-accent; 
   border-radius: 0.25rem;
 
   &:hover {
     background-color: $color-accent-dark; 
-    color: #fff; 
+    color: $color-bg;
     border-radius: 0.25rem;
   }
 

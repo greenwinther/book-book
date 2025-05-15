@@ -8,7 +8,7 @@ type BookListSectionProps = {
 	showReview?: boolean;
 };
 
-export const BookListSection = ({ title, books, emptyMessage, showReview = false }: BookListSectionProps) => {
+export const BookListSection = ({ title, books, emptyMessage, showReview = true }: BookListSectionProps) => {
 	return (
 		<section className="book-list-section">
 			<h2>

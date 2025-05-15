@@ -2,7 +2,7 @@ import { EditionDetailsResponse, EditionListResponse } from "../types";
 
 const fetchBookPages = async (bookKey: string): Promise<number | null> => {
 	try {
-		const response = await fetch(`https://openlibrary.org/works/${bookKey}/editions.json?limit=10`);
+		const response = await fetch(`https://openlibrary.org/works/${bookKey}/editions.json?limit=1`);
 		if (!response.ok) throw new Error(`Failed to fetch editions: ${response.status}`);
 		const data: EditionListResponse = await response.json();
 

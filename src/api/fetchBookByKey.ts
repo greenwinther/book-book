@@ -24,7 +24,7 @@ const fetchBookByKey = async (bookKey: string): Promise<Book | null> => {
 			bookPages: bookPages ?? undefined,
 		};
 	} catch (err) {
-		console.error("Failed to fetch book:", err);
+		console.error("Failed to fetch book: with key", err);
 		return null;
 	}
 };

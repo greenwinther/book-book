@@ -1,12 +1,12 @@
 import "./BookMark.scss";
 
-type Props = {
+type BookMarkProps = {
 	isFavorite: boolean;
 	onToggle: () => void;
 	className?: string;
 };
 
-const BookMark = ({ isFavorite, onToggle, className }: Props) => (
+const BookMark = ({ isFavorite, onToggle, className }: BookMarkProps) => (
 	<button
 		className={`bookmark ${isFavorite ? "bookmarked" : ""} ${className || ""}`}
 		onClick={onToggle}

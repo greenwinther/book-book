@@ -5,7 +5,11 @@
   background: transparent;
   border: none;
   cursor: pointer;
-  padding: $spacing-unit;
+  min-height: 50px;
+  min-width: 50px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
   transition: transform 0.2s ease;
 
   &:hover {
@@ -13,8 +17,8 @@
   }
 
   .bookmark-icon {
-    width: 40px;
-    height: 40px;
+    height: 32px;
+    width: 32px;
     stroke: $color-text-muted;
     stroke-width: 2;
     stroke-linecap: round;

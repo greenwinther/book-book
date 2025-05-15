@@ -3,7 +3,7 @@ import { Link } from "react-router-dom";
 import { BookWithStatus } from "../../types";
 import { useLibrary } from "../../contexts/LibraryContext";
 import StatusDropdown from "../StatusDropdown/StatusDropdown";
-import fetchCoverUrl from "../../api/fetchBookCover";
+import fetchBookCover from "../../api/fetchBookCover";
 import BookMark from "../BookMark/BookMark";
 import AverageRating from "../AverageRating/AverageRating";
 import BookPages from "../BookPages/BookPages";
@@ -11,11 +11,13 @@ import ReviewDisplay from "../ReviewDisplay/ReviewDisplay";
 
 const BookCard = ({ book, showReview = false }: { book: BookWithStatus; showReview?: boolean }) => {
 	const { books, updateStatus, toggleFavorite } = useLibrary();
-	const coverUrl = fetchCoverUrl(book.coverId, "M");
+	const coverUrl = fetchBookCover(book.coverId, "M");
 
 	const bookInContext = books.find((b) => b.bookKey === book.bookKey);
 	const currentStatus = bookInContext?.status;
 	const isFavorite = bookInContext?.isFavorite ?? false;
+
+	const displayAuthors = book.author?.slice(0, 2).join(", ") || "Unknown author";
 
 	return (
 		<article className="book-card">
@@ -31,7 +33,7 @@ const BookCard = ({ book, showReview = false }: { book: BookWithStatus; showRevi
 						<Link to={`/book/${book.bookKey}`}>
 							<h3>{book.title || "Untitled"}</h3>
 						</Link>
-						<p className="author">{book.author?.join(", ") || "Unknown author"}</p>
+						<p className="author">{displayAuthors}</p>
 					</div>
 					<BookMark isFavorite={isFavorite} onToggle={() => toggleFavorite(book)} />
 				</div>
@@ -48,9 +50,7 @@ const BookCard = ({ book, showReview = false }: { book: BookWithStatus; showRevi
 					</div>
 				</div>
 				<div className="bottom-row">
-					{showReview && currentStatus === "finished" && (
-						<ReviewDisplay book={book} maxWords={10} />
-					)}
+					{showReview && book.review && <ReviewDisplay book={book} maxWords={10} />}
 				</div>
 			</div>
 		</article>

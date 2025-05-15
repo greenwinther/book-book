@@ -9,7 +9,6 @@ type ReviewFormProps = {
 
 const ReviewForm = ({ book }: ReviewFormProps) => {
 	const { updateReview } = useLibrary();
-
 	const [review, setReview] = useState("");
 	const [rating, setRating] = useState("");
 

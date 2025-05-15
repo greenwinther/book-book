@@ -1,0 +1,49 @@
+@use '../../styles/variables' as *;
+@use '../../styles/mixins' as *;
+
+.genres-container {
+    display: flex;
+    flex-direction: column;
+    gap: 0.25rem;
+
+  h3 {
+    margin: 0;
+    font-size: 1rem;
+    text-transform: uppercase;
+    color: $color-accent-dark;
+    font-family: $font-heading;
+  }
+
+  ul {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+    list-style: none;
+    padding: 0;
+    margin: 0;
+  }
+
+  li {
+    background-color: $color-bg-dark;
+    border: 1px solid $color-border;
+    color: $color-text;
+    font-family: $font-body;
+    border-radius: 1.5rem;
+    padding: 0.3rem 0.8rem;
+    font-size: 0.85rem;
+    box-shadow: 1px 1px 4px rgba(0, 0, 0, 0.1);
+    transition: background 0.3s ease;
+
+    &:hover {
+      background-color: $color-accent-light;
+      cursor: default;
+    }
+  }
+
+  li::before {
+    content: "✦";
+    margin-right: 0.4rem;
+    font-size: 0.7rem;
+    color: $color-accent;
+    }
+}

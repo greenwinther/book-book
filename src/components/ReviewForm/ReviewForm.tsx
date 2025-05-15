@@ -1,13 +1,13 @@
 import { useState } from "react";
 import { Book } from "../../types";
 import { useLibrary } from "../../contexts/LibraryContext";
-import ReviewDisplay from "../ReviewDisplay/ReviewDisplay";
+import "./ReviewForm.scss";
 
-type Props = {
+type ReviewFormProps = {
 	book: Book;
 };
 
-const ReviewForm = ({ book }: Props) => {
+const ReviewForm = ({ book }: ReviewFormProps) => {
 	const { updateReview } = useLibrary();
 
 	const [review, setReview] = useState("");
@@ -46,7 +46,6 @@ const ReviewForm = ({ book }: Props) => {
 				/>
 				<button type="submit">Save Review</button>
 			</form>
-			<ReviewDisplay book={book} />
 		</div>
 	);
 };

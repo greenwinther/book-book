@@ -11,6 +11,9 @@ import AverageRating from "../../components/AverageRating/AverageRating";
 import BookMark from "../../components/BookMark/BookMark";
 import { useLibrary } from "../../contexts/LibraryContext";
 import BookPages from "../../components/BookPages/BookPages";
+import PotionLoader from "../../components/PotionLoader/PotionLoader";
+import ReviewDisplay from "../../components/ReviewDisplay/ReviewDisplay";
+import Genres from "../../components/Genres/Genres";
 
 const BookDetails = () => {
 	const { bookKey } = useParams<{ bookKey: string }>();
@@ -41,7 +44,7 @@ const BookDetails = () => {
 		}
 	}, [books, book?.bookKey]);
 
-	if (loading) return <p>Loading...</p>;
+	if (loading) return <PotionLoader title={"Brewing up the book..."} />;
 	if (!book) return <p>Book not found.</p>;
 
 	const bookInContext = books.find((b) => b.bookKey === book.bookKey);
@@ -51,43 +54,35 @@ const BookDetails = () => {
 
 	return (
 		<div className="book-details">
-			<div className="top-section">
-				<div className="cover-and-status">
+			<div className="details-top-section">
+				<div className="details-cover">
 					{book.coverId && <img src={coverUrl} alt={`Cover of ${book.title}`} />}
-					<div className="status-controls">
-						<h3>Status</h3>
-						<StatusDropdown
-							status={currentStatus}
-							onChange={(newStatus) => updateStatus(book, newStatus)}
-						/>
-						<BookMark isFavorite={isFavorite} onToggle={() => toggleFavorite(book)} />
-						<AverageRating bookKey={book.bookKey} />
-						<BookPages bookKey={book.bookKey} />
-					</div>
 				</div>
-
-				<div className="book-info">
+				<div className="details-info">
 					<h1>{book.title}</h1>
 					<p className="author">by {book.author.join(", ")}</p>
 					<div className="description">
 						<ReactMarkdown>{book.description}</ReactMarkdown>
 					</div>
 				</div>
-
-				{book.genres && (
-					<div className="genres">
-						<h3>Genres</h3>
-						<ul>
-							{book.genres.map((genre) => (
-								<li key={genre}>{genre}</li>
-							))}
-						</ul>
-					</div>
-				)}
+				<div className="details-status">
+					<BookMark isFavorite={isFavorite} onToggle={() => toggleFavorite(book)} />
+					<StatusDropdown
+						status={currentStatus}
+						onChange={(newStatus) => updateStatus(book, newStatus)}
+					/>
+				</div>
 			</div>
-
-			<div className="review-section">
-				<ReviewForm book={book} />
+			<div className="details-middle-section">
+				<AverageRating bookKey={book.bookKey} />
+				<BookPages bookKey={book.bookKey} />
+				{book.genres && <Genres genres={book.genres} />}
+			</div>
+			<div className="details-bottom-section">
+				<div className="review-section">
+					<ReviewForm book={book} />
+					<ReviewDisplay book={book} />
+				</div>
 			</div>
 		</div>
 	);

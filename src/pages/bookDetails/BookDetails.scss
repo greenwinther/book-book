@@ -1,94 +1,101 @@
 @use '../../styles/variables/' as *;
 
 .book-details {
+  display: flex;
+  flex-direction: column;
+  background-color: $color-bg;
+  border-radius: 0.5rem;
+  padding: 1.5rem;
+  gap: 1.5rem;
+
+  .details-top-section {
     display: flex;
-    flex-direction: column;
-    gap: 2rem;
-    padding: 2rem;
-  
-    .top-section {
-      display: flex;
-      gap: 2rem;
-      flex-wrap: wrap;
-    }
-  
-    .cover-and-status {
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      gap: 1rem;
-  
+    flex-wrap: wrap;
+    gap: 1.5rem;
+
+    .details-cover {
+      flex: 0 0 120px;
+
       img {
-        max-width: 200px;
+        width: 100%;
         border-radius: 0.5rem;
         box-shadow: 0 0 8px rgba(0, 0, 0, 0.2);
       }
-  
-      .status-controls {
-        display: flex;
-        flex-direction: column;
-        gap: 0.5rem;
-        width: 100%;
-        button {
-          margin-top: 0.5rem;
-          cursor: pointer;
-        }
+    }
+
+    .details-info {
+      flex: 1;
+      min-width: 0;
+      display: flex;
+      flex-direction: column;
+      gap: 0.5rem;
+
+      h1 {
+        font-size: 1.5rem;
+        font-weight: bold;
+        margin: 0;
+      }
+
+      .author {
+        color: $color-accent;
+        font-size: 1rem;
+        margin-bottom: 0.5rem;
+      }
+
+      .description {
+        font-size: 0.95rem;
+        line-height: 1.6;
       }
     }
-  
-    .book-info {
-      flex: 1;
+
+    .details-status {
       display: flex;
       flex-direction: column;
       justify-content: flex-start;
-      gap: 0.75rem;
-  
-      h1 {
-        font-size: 1.8rem;
-        font-weight: bold;
-      }
-  
-      .author {
-        font-size: 1.2rem;
-        color: $color-accent;
-      }
-  
-      .description {
-        p {
-          line-height: 1.6;
-          margin-bottom: 1rem;
-        }
-
-        h3 {
-        font-size: 1.2rem;
-        color: #444;
-        margin-top: 1.5rem;
-        }
-
-        strong {
-          font-weight: bold;
-        }
-
-        em {
-          font-style: italic;
-        }
-      }
+      align-items: flex-start;
+      gap: 0.5rem;
+      flex: 0 0 auto;
     }
-  
+  }
 
-}
-.genres ul {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 0.5rem;
+  .details-middle-section {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1rem;
+    align-items: center;
 
-  li {
-    background: #eee;
-    padding: 0.3rem 0.6rem;
-    border-radius: 1rem;
-    font-size: 0.85rem;
+    .rating,
+    .pages {
+      font-size: 0.9rem;
+      color: $color-text-muted;
+    }
+  }
+
+  .details-bottom-section {
+    margin-top: 1rem;
   }
 }
 
-  
-  
+// 📱 Mobile tweaks
+@media (max-width: 768px) {
+  .details-top-section {
+    flex-direction: column;
+    align-items: flex-start;
+
+    .details-cover {
+      align-self: center;
+    }
+
+    .details-status {
+      align-self: stretch;
+      flex-direction: row;
+      justify-content: space-between;
+      flex-wrap: wrap;
+    }
+  }
+
+  .details-middle-section {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+}

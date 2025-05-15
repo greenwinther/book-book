@@ -1,6 +1,10 @@
 import "./PotionLoader.scss";
 
-const PotionLoader = () => {
+type PotionLoaderProps = {
+	title?: string;
+};
+
+const PotionLoader = ({ title }: PotionLoaderProps) => {
 	return (
 		<div className="potion-loader" role="status" aria-label="Loading...">
 			<img
@@ -8,7 +12,7 @@ const PotionLoader = () => {
 				alt="Magical potion bubbling while loading"
 				className="potion-image"
 			/>
-			<p className="loading-text">Brewing up some books...</p>
+			<p className="loading-text">{title}</p>
 		</div>
 	);
 };

@@ -7,6 +7,7 @@ import BookMark from "../BookMark/BookMark";
 import AverageRating from "../AverageRating/AverageRating";
 import { useLibrary } from "../../contexts/LibraryContext";
 import BookPages from "../BookPages/BookPages";
+import ReviewDisplay from "../ReviewDisplay/ReviewDisplay";
 
 const BookCard = ({ book, showReview = false }: { book: BookWithStatus; showReview?: boolean }) => {
 	const { books, updateStatus, toggleFavorite } = useLibrary();
@@ -16,44 +17,41 @@ const BookCard = ({ book, showReview = false }: { book: BookWithStatus; showRevi
 	const currentStatus = bookInContext?.status;
 	const isFavorite = bookInContext?.isFavorite ?? false;
 
-	const review = bookInContext?.review;
-	const rating = bookInContext?.rating;
-
 	return (
 		<article className="book-card">
-			<Link to={`/book/${book.bookKey}`} className="book-card-link">
-				<img src={coverUrl} alt={`Cover of ${book.title}`} className="book-card-cover" />
-			</Link>
+			<div className="cover">
+				<Link to={`/book/${book.bookKey}`}>
+					<img src={coverUrl} alt={`Cover of ${book.title}`} />
+				</Link>
+			</div>
 
-			<div className="book-card-content">
-				<div className="book-card-top">
-					<div className="book-card-info">
-						<h3>{book.title || "Untitled"}</h3>
+			<div className="info">
+				<div className="top-row">
+					<div className="title-author">
+						<Link to={`/book/${book.bookKey}`}>
+							<h3>{book.title || "Untitled"}</h3>
+						</Link>
 						<p className="author">{book.author?.join(", ") || "Unknown author"}</p>
+					</div>
+					<BookMark isFavorite={isFavorite} onToggle={() => toggleFavorite(book)} />
+				</div>
+				<div className="middle-row">
+					<div className="meta">
+						<AverageRating bookKey={book.bookKey} />
 						<BookPages bookKey={book.bookKey} />
 					</div>
-
-					<div className="book-card-status">
+					<div className="status">
 						<StatusDropdown
 							status={currentStatus}
 							onChange={(newStatus) => updateStatus(book, newStatus)}
 						/>
-
-						<BookMark isFavorite={isFavorite} onToggle={() => toggleFavorite(book)} />
 					</div>
 				</div>
-
-				<AverageRating bookKey={book.bookKey} />
-				{showReview && currentStatus === "finished" && (review || rating) && (
-					<div className="user-review-snippet">
-						{review && (
-							<p className="review">
-								{review.length > 100 ? review.slice(0, 100) + "…" : review}
-							</p>
-						)}
-						{rating && <p className="rating">⭐ {rating.toFixed(1)}</p>}
-					</div>
-				)}
+				<div className="bottom-row">
+					{showReview && currentStatus === "finished" && (
+						<ReviewDisplay book={book} maxWords={10} />
+					)}
+				</div>
 			</div>
 		</article>
 	);

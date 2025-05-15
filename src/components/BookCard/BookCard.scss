@@ -3,77 +3,61 @@
 
 .book-card {
   display: flex;
-  justify-content: space-between;
-  align-items: flex-start;
-  gap: $spacing-unit;
-  padding: $spacing-unit;
   background-color: $color-bg-dark;
   border: 1px solid $color-border;
   border-radius: 0.5rem;
-  transition: transform 0.2s ease;
+  gap: 1rem;
+  padding: 1rem;
+	width: 100%;
+	max-width: 400px;
 
-  &:hover {
-    transform: scale(1.02);
-    @include card-shadow;
-  }
+    img {
+      width: 100px;
+      height: auto;
+      border-radius: 0.25rem;
+      object-fit: cover;
+    }
+  
 
-  &-cover {
-    flex-shrink: 0;
-    width: 120px;
-    height: 180px;
-    object-fit: cover;
-    border-radius: 0.25rem;
-  }
-
-  &-content {
-    flex-grow: 1;
+  .info {
     display: flex;
     flex-direction: column;
-    justify-content: space-between;
-  }
-
-  &-top {
-    display: flex;
-    justify-content: space-between;
-    align-items: flex-start;
-    margin-bottom: 0.5rem;
-  }
-
-  &-info {
     flex: 1;
+    justify-content: space-between;
 
-    h3 {
-      @include fancy-heading;
-      margin: 0;
+    .top-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+
+      .title-author {
+        h3 {
+          @include fancy-heading;
+          margin: 0;
+        }
+
+        .author {
+          font-size: 0.9rem;
+          color: $color-text-muted;
+          margin: 0;
+        }
+      }
+
+      .bookmark {
+        margin-left: auto;
+      }
     }
 
-    .author {
-      color: $color-text-muted;
-      font-size: 0.9rem;
+    .middle-row {
+      display: flex;
+      flex-direction: row;
+      justify-content: space-between;
+      gap: 0.25rem;
+      
+      .meta {
+        display: flex;
+        gap: 0.5rem;
+      }
     }
   }
-
-  &-rating {
-    margin-top: 0.25rem;
-    font-weight: bold;
-    color: $color-accent-dark;
-  }
-
-  &-status {
-    align-self: flex-end;
-  }
-}
-.user-review-snippet {
-	margin-top: 0.5rem;
-	font-style: italic;
-	color: #5b4d3e;
-
-	.review {
-		margin-bottom: 0.25rem;
-	}
-
-	.rating {
-		font-weight: bold;
-		color: #8d5524;
-	}
 }

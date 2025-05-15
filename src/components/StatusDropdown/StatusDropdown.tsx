@@ -5,13 +5,12 @@ import "./StatusDropdown.scss";
 type Props = {
 	status?: BookStatus;
 	onChange: (newStatus: BookStatus) => void;
-	className?: string;
 };
 
-const StatusDropdown: React.FC<Props> = ({ status = "", onChange, className }) => {
+const StatusDropdown: React.FC<Props> = ({ status = "", onChange }) => {
 	return (
 		<select
-			className={`status-dropdown ${className || ""}`}
+			className="status-dropdown"
 			value={status}
 			onChange={(e) => onChange(e.target.value as BookStatus)}
 		>

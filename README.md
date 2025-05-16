@@ -1,54 +1,70 @@
-# React + TypeScript + Vite
+# Book Book
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+## 📌 About
 
-Currently, two official plugins are available:
+This is a wizard-themed book tracking app using the Open Library API. You can search for books, explore detailed information, favorite titles, track your reading status, and see personal statistics such as total books read and pages completed. The app is built with React, TypeScript, Vite, and Sass, with a mobile-first layout and magical aesthetic inspired by an old wizard's library.
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+## 🛠 How to Install
 
-## Expanding the ESLint configuration
+1. Clone the repo:
+    ```sh
+    git clone https://github.com/greenwinther/book-book.git
+    ```
+2. Navigate into the project folder:
+    ```sh
+    cd your-repo
+    ```
+3. Install dependencies:
+    ```sh
+    npm install
+    ```
 
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
+## 🚀 How to Compile & Run
 
-```js
-export default tseslint.config({
-  extends: [
-    // Remove ...tseslint.configs.recommended and replace with this
-    ...tseslint.configs.recommendedTypeChecked,
-    // Alternatively, use this for stricter rules
-    ...tseslint.configs.strictTypeChecked,
-    // Optionally, add this for stylistic rules
-    ...tseslint.configs.stylisticTypeChecked,
-  ],
-  languageOptions: {
-    // other options...
-    parserOptions: {
-      project: ['./tsconfig.node.json', './tsconfig.app.json'],
-      tsconfigRootDir: import.meta.dirname,
-    },
-  },
-})
+1. To start the project in development mode, run:
+    ```sh
+    npm run dev
+    ```
+
+## 🗂 Folder Structure
+
+```
+📁 src/
+├── 📁 assets/                 # Static assets like fonts or images
+├── 📁 components/             # Reusable UI components (e.g., BookCard, StatusDropdown)
+├── 📁 context/                # Context API for global state (favorites, status)
+├── 📁 hooks/                  # Custom React hooks (e.g., useAuthor, useSearchBooks)
+├── 📁 pages/                  # Route-level views (Home, Search, BookDetail, etc.)
+├── 📁 styles/                 # SCSS partials (base, layout, mixins, etc.)
+├── 📁 types/                  # Global TypeScript types
+├── 📁 utils/                  # Helper functions (e.g., fetchBookCover)
+├── 📄 App.tsx                 # Root component with React Router setup
+├── 📄 main.tsx                # Vite entry point
 ```
 
-You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
+## 🌐 API Info
 
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x'
-import reactDom from 'eslint-plugin-react-dom'
+-   **API:** Open Library API
+-   **Endpoints Used:**
+    -   /search.json – for search results
+    -   /works/:id.json – for book details
+    -   /authors/:id.json – for author info
+    -   /subjects/:name.json – for category recommendations
+-   **Authentication:** No API key required
 
-export default tseslint.config({
-  plugins: {
-    // Add the react-x and react-dom plugins
-    'react-x': reactX,
-    'react-dom': reactDom,
-  },
-  rules: {
-    // other rules...
-    // Enable its recommended typescript rules
-    ...reactX.configs['recommended-typescript'].rules,
-    ...reactDom.configs.recommended.rules,
-  },
-})
-```
+## 📚 Technologies Used
+
+-   **React** - UI framework
+-   **TypeScript** - For type safety
+-   **Sass (SCSS)** - Styling with variables and mixins
+-   **React Router** - Client-side routing
+-   **Vite** - Build tool for fast development
+-   **Open Library API** - Free book metadata source
+
+## 🎨 Theme & Design
+
+The app's aesthetic is inspired by a wizard's personal study: mystical fonts, aged paper tones, subtle glows, and medieval UI elements. The design adapts gracefully across devices while keeping its magical feel.
+
+## 🔗 Connect with Me
+
+[LinkedIn Profile](https://www.linkedin.com/in/dennis-gren-winther/)

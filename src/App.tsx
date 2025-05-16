@@ -6,21 +6,24 @@ import SearchResults from "./pages/searchResults/SearchResults";
 import BookDetails from "./pages/bookDetails/BookDetails";
 import { LibraryProvider } from "./contexts/LibraryContext";
 import AuthorDetails from "./pages/authorDetails/AuthorDetails";
+import { AuthorProvider } from "./contexts/AuthorContext";
 
 function App() {
 	return (
 		<LibraryProvider>
-			<Router>
-				<Routes>
-					<Route path="/" element={<Layout />}>
-						<Route index element={<Home />} />
-						<Route path="profile" element={<Profile />} />
-						<Route path="book/:bookKey" element={<BookDetails />} />
-						<Route path="author/:authorKey" element={<AuthorDetails />} />
-						<Route path="search" element={<SearchResults />} />
-					</Route>
-				</Routes>
-			</Router>
+			<AuthorProvider>
+				<Router>
+					<Routes>
+						<Route path="/" element={<Layout />}>
+							<Route index element={<Home />} />
+							<Route path="profile" element={<Profile />} />
+							<Route path="book/:bookKey" element={<BookDetails />} />
+							<Route path="author/:authorKey" element={<AuthorDetails />} />
+							<Route path="search" element={<SearchResults />} />
+						</Route>
+					</Routes>
+				</Router>
+			</AuthorProvider>
 		</LibraryProvider>
 	);
 }

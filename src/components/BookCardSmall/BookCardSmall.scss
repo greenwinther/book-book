@@ -39,15 +39,14 @@
     h3 {
       @include fancy-heading;
       font-size: 1rem;
-      margin: 0 0 0.25rem;
       line-height: 1.3;
       height: 2.6rem;
+      margin-bottom: 0;
       overflow: hidden;
     }
 
     .author {
       font-size: 0.875rem;
-      color: $color-text-muted;
       height: 2.6rem;
       overflow: hidden;
     }
@@ -56,5 +55,6 @@
   .book-card-small-status {
     display: flex;
     align-items: center;
+    padding-top: 1rem;
   }
 }

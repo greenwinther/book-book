@@ -1,6 +1,11 @@
 import { BookWithStatus } from "../../types";
 import BookCard from "../../components/BookCard/BookCard";
 
+/**
+ * Renders a list of books with optional review display.
+ * Shows a message if the book list is empty.
+ */
+
 type BookListSectionProps = {
 	title: string;
 	books: BookWithStatus[];

@@ -1,7 +1,9 @@
 import "./BookCard.scss";
 import { Link } from "react-router-dom";
-import { BookWithStatus } from "../../types";
+import { useEffect, useState } from "react";
 import { useLibrary } from "../../contexts/LibraryContext";
+import { useAuthor } from "../../contexts/AuthorContext";
+import { BookWithStatus } from "../../types";
 import StatusDropdown from "../StatusDropdown/StatusDropdown";
 import fetchBookCover from "../../api/fetchBookCover";
 import BookMark from "../BookMark/BookMark";
@@ -9,16 +11,38 @@ import AverageRating from "../AverageRating/AverageRating";
 import BookPages from "../BookPages/BookPages";
 import ReviewDisplay from "../ReviewDisplay/ReviewDisplay";
 
+/**
+ * Displays a detailed card for a book including cover, title, authors, rating,
+ * page count, reading status, and favorite toggle.
+ * Optionally shows a shortened review if `showReview` is true.
+ * Fetches author info on mount and updates when authors change.
+ */
+
 const BookCard = ({ book, showReview = false }: { book: BookWithStatus; showReview?: boolean }) => {
 	const { books, updateStatus, toggleFavorite } = useLibrary();
-	const { authors } = useAuthorContext();
+	const { getAuthor } = useAuthor();
+	const [authorInfo, setAuthorInfo] = useState<{ key: string; name: string }[]>([]);
 	const coverUrl = fetchBookCover(book.coverId, "M");
 
 	const bookInContext = books.find((b) => b.bookKey === book.bookKey);
 	const currentStatus = bookInContext?.status;
 	const isFavorite = bookInContext?.isFavorite ?? false;
 
-	const displayAuthors = book.author?.slice(0, 2).join(", ") || "Unknown author";
+	useEffect(() => {
+		const loadAuthors = async () => {
+			const authors = await Promise.all(
+				book.author.map((author) =>
+					getAuthor(author.key).then((res) => ({
+						key: res.key,
+						name: res.name ?? "Unknown",
+					}))
+				)
+			);
+			setAuthorInfo(authors.length > 0 ? authors : book.author);
+		};
+
+		loadAuthors();
+	}, [book.author, getAuthor]);
 
 	return (
 		<article className="book-card">
@@ -34,7 +58,14 @@ const BookCard = ({ book, showReview = false }: { book: BookWithStatus; showRevi
 						<Link to={`/book/${book.bookKey}`}>
 							<h3>{book.title || "Untitled"}</h3>
 						</Link>
-						<p className="author">{displayAuthors}</p>
+						{authorInfo.map((author, index) => (
+							<span key={author.key}>
+								<Link to={`/author/${author.key}`} className="author-link">
+									{author.name}
+								</Link>
+								{index < authorInfo.length - 1 && ", "}
+							</span>
+						))}
 					</div>
 					<BookMark isFavorite={isFavorite} onToggle={() => toggleFavorite(book)} />
 				</div>
@@ -59,6 +90,3 @@ const BookCard = ({ book, showReview = false }: { book: BookWithStatus; showRevi
 };
 
 export default BookCard;
-function useAuthorContext(): { authors: any } {
-	throw new Error("Function not implemented.");
-}

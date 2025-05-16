@@ -3,6 +3,12 @@ import { useState } from "react";
 import { Book } from "../../types";
 import { useLibrary } from "../../contexts/LibraryContext";
 
+/**
+ * Form component for submitting or updating a book review and rating.
+ * Validates rating input to be between 0 and 5 before saving.
+ * Clears inputs after successful submission.
+ */
+
 type ReviewFormProps = {
 	book: Book;
 };

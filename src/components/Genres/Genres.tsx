@@ -1,6 +1,11 @@
 import "./Genres.scss";
 import React from "react";
 
+/**
+ * Displays a list of book genres, limited to a maximum number.
+ * Defaults to showing up to 5 genres if max is not specified.
+ */
+
 type GenresProps = {
 	genres?: string[];
 	max?: number;

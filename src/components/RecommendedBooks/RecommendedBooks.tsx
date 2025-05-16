@@ -5,6 +5,12 @@ import fetchBookBySubject from "../../api/fetchBookBySubject";
 import PotionLoader from "../PotionLoader/PotionLoader";
 import BookCardSmall from "../BookCardSmall/BookCardSmall";
 
+/**
+ * Fetches and displays a list of recommended books based on the given subject.
+ * Shows a loading potion animation while fetching.
+ * Uses a compact book card to render each recommended book.
+ */
+
 type RecommendedBooksProps = {
 	subject?: string;
 	title?: string;

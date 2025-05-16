@@ -2,6 +2,13 @@ import "./SearchBar.scss";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 
+/**
+ * SearchBar component for entering book queries.
+ * Navigates to search results page on form submit with encoded query.
+ * Clears input after successful submission.
+ * Includes accessibility roles and labels for better screen reader support.
+ */
+
 const SearchBar = () => {
 	const [query, setQuery] = useState("");
 	const navigate = useNavigate();

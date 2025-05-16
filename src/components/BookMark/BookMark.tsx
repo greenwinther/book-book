@@ -1,5 +1,9 @@
 import "./BookMark.scss";
 
+/**
+ * Bookmark button toggling favorite status with accessible labels and dynamic styling.
+ */
+
 type BookMarkProps = {
 	isFavorite: boolean;
 	onToggle: () => void;

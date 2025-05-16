@@ -1,5 +1,9 @@
 import "./PotionLoader.scss";
 
+/**
+ * Displays a magical potion-themed loading indicator with optional title text.
+ */
+
 type PotionLoaderProps = {
 	title?: string;
 };

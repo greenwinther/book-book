@@ -1,12 +1,13 @@
-import DebugAuthorFetcher from "../components/DebugAuthorFetcher";
 import RecommendedBooks from "../components/RecommendedBooks/RecommendedBooks";
+
+/**
+ * Home page displaying recommended books for a given subject.
+ */
 
 const Home = () => {
 	return (
 		<section>
-			<DebugAuthorFetcher />
 			<RecommendedBooks subject="fantasy" title="Fantasy Picks" />
-			<RecommendedBooks subject="horror" title="Horror Picks" />
 		</section>
 	);
 };

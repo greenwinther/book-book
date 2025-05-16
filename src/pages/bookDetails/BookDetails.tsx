@@ -1,7 +1,8 @@
 import "./BookDetails.scss";
-import { useParams } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
 import { useEffect, useState } from "react";
 import { useLibrary } from "../../contexts/LibraryContext";
+import { useAuthor } from "../../contexts/AuthorContext";
 import { Book, BookWithStatus } from "../../types";
 import ReactMarkdown from "react-markdown";
 import StatusDropdown from "../../components/StatusDropdown/StatusDropdown";
@@ -15,11 +16,27 @@ import PotionLoader from "../../components/PotionLoader/PotionLoader";
 import ReviewDisplay from "../../components/ReviewDisplay/ReviewDisplay";
 import Genres from "../../components/Genres/Genres";
 
+/**
+ * BookDetails component fetches and displays detailed info about a single book.
+ *
+ * Retrieves bookKey from route params to load book data, either from context or via API fetch.
+ * Merges local context book data with fetched data to get the most updated info.
+ * Loads detailed author info asynchronously based on the book's authors.
+ * Shows a loading state with PotionLoader while book or author data is loading.
+ * Renders book cover, title, authors (with links), and description (supports Markdown).
+ * Includes interactive components for marking favorite (BookMark) and updating reading status (StatusDropdown).
+ * Displays average rating, page count, genres, and user reviews.
+ * Handles cases where book or authors are missing with fallback UI.
+ * Uses cleanup flags to avoid state updates if the component unmounts during async calls.
+ */
+
 const BookDetails = () => {
 	const { bookKey } = useParams<{ bookKey: string }>();
 	const [fetchedBook, setFetchedBook] = useState<Book | null>(null);
 	const [loading, setLoading] = useState(true);
+	const [authorInfo, setAuthorInfo] = useState<{ key: string; name: string }[]>([]);
 	const { books, updateStatus, toggleFavorite } = useLibrary();
+	const { getAuthor } = useAuthor();
 
 	useEffect(() => {
 		const loadBook = async () => {
@@ -37,14 +54,36 @@ const BookDetails = () => {
 		loadBook();
 	}, [bookKey, books]);
 
-	if (loading) return <PotionLoader title={"Brewing up the book..."} />;
-	if (!fetchedBook) return <p>Book not found.</p>;
+	const mergedBook: BookWithStatus | null = fetchedBook
+		? {
+				...fetchedBook,
+				...books.find((b) => b.bookKey === fetchedBook.bookKey),
+		  }
+		: null;
 
-	const bookInContext = books.find((b) => b.bookKey === fetchedBook.bookKey);
-	const mergedBook: BookWithStatus = {
-		...fetchedBook,
-		...bookInContext,
-	};
+	useEffect(() => {
+		if (!mergedBook?.author?.length) {
+			setAuthorInfo([]);
+			return;
+		}
+
+		const loadAuthors = async () => {
+			const authors = await Promise.all(
+				mergedBook.author.map((author) =>
+					getAuthor(author.key).then((res) => ({
+						key: res.key,
+						name: res.name ?? "Unknown",
+					}))
+				)
+			);
+			setAuthorInfo(authors.length > 0 ? authors : mergedBook.author);
+		};
+
+		loadAuthors();
+	}, [mergedBook?.author, getAuthor]);
+
+	if (loading) return <PotionLoader title={"Brewing up the book..."} />;
+	if (!mergedBook) return <p>Book not found.</p>;
 
 	const coverUrl = fetchBookCover(mergedBook.coverId, "L");
 	const isFavorite = mergedBook.isFavorite ?? false;
@@ -58,7 +97,17 @@ const BookDetails = () => {
 				</div>
 				<div className="details-info">
 					<h1>{mergedBook.title}</h1>
-					<p className="author">by {mergedBook.author.join(", ")}</p>
+					<p className="author">
+						by{" "}
+						{authorInfo.map((author, index) => (
+							<span key={author.key}>
+								<Link to={`/author/${author.key}`} className="author-link">
+									{author.name}
+								</Link>
+								{index < authorInfo.length - 1 && ", "}
+							</span>
+						))}
+					</p>
 					<div className="description">
 						<ReactMarkdown>{mergedBook.description}</ReactMarkdown>
 					</div>

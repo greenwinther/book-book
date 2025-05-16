@@ -1,5 +1,9 @@
 import { useLibrary } from "../../contexts/LibraryContext";
 
+/**
+ * Displays summary stats of user's reading progress.
+ */
+
 const ProfileStats = () => {
 	const { getBooksByStatus, getPagesRead } = useLibrary();
 

@@ -2,6 +2,12 @@ import "./StatusDropdown.scss";
 import React from "react";
 import { BookStatus } from "../../types";
 
+/**
+ * StatusDropdown component for selecting a book's reading status.
+ * Defaults to empty status with options to set planning, reading, or finished.
+ * Calls onChange callback with new status on selection.
+ */
+
 type Props = {
 	status?: BookStatus;
 	onChange: (newStatus: BookStatus) => void;

@@ -3,6 +3,12 @@ import { useEffect, useState } from "react";
 import { useLibrary } from "../../contexts/LibraryContext";
 import fetchBookPages from "../../api/fetchBookPages";
 
+/**
+ * Displays the number of pages for a given book.
+ * Fetches page count on mount and updates global book data if changed.
+ * Returns null if no valid page count is found.
+ */
+
 type BookPagesProps = {
 	bookKey: string;
 };

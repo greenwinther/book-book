@@ -2,6 +2,12 @@ import "./ReviewDisplay.scss";
 import { Book } from "../../types";
 import { useLibrary } from "../../contexts/LibraryContext";
 
+/**
+ * Displays the user’s rating and review for a given book.
+ * Optionally shortens the review text to a max word count.
+ * Returns null if no review or rating exists.
+ */
+
 type ReviewDisplayProps = {
 	book: Book;
 	maxWords?: number;
@@ -13,7 +19,7 @@ const ReviewDisplay = ({ book, maxWords }: ReviewDisplayProps) => {
 
 	if (!existing?.review && !existing?.rating) return null;
 
-	const truncatedReview = maxWords
+	const shortened = maxWords
 		? existing.review?.split(" ").slice(0, maxWords).join(" ") + "…"
 		: existing.review;
 
@@ -26,7 +32,7 @@ const ReviewDisplay = ({ book, maxWords }: ReviewDisplayProps) => {
 			)}
 			{existing.review && (
 				<p className="review-display-text">
-					<strong>Comment:</strong> {truncatedReview}
+					<strong>Comment:</strong> {shortened}
 				</p>
 			)}
 		</div>

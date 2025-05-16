@@ -1,5 +1,10 @@
 import { EditionDetailsResponse, EditionListResponse } from "../types";
 
+/**
+ * Fetches the number of pages from the first available edition of a book by its key.
+ * Returns null if no page count is found or the fetch fails.
+ */
+
 const fetchBookPages = async (bookKey: string): Promise<number | null> => {
 	try {
 		const response = await fetch(`https://openlibrary.org/works/${bookKey}/editions.json?limit=1`);

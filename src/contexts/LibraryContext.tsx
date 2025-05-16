@@ -1,6 +1,24 @@
 import { createContext, useContext, useState } from "react";
 import { Book, BookWithStatus, BookStatus } from "../types";
 
+/**
+ * LibraryContext manages user's book collection with status, favorites, and reviews.
+ *
+ * Provides:
+ * - books: all tracked books with statuses, favorites, reviews, ratings
+ * - addOrUpdateBook: add new or update existing book info (status, favorite, pages)
+ * - removeBook: delete a book by its key
+ * - updateStatus: update reading status of a book
+ * - toggleFavorite: toggle favorite flag on a book
+ * - updateReview: set review text and rating for a book
+ * - getBooksByStatus: retrieve books filtered by reading status
+ * - getFavoriteBooks: retrieve all favorite books
+ * - getPagesRead: sum total pages of all finished books
+ *
+ * LibraryProvider wraps app parts that need book state.
+ * useLibrary hook accesses context with error if used outside provider.
+ */
+
 // Context type defining all available functions and data
 type LibraryContextType = {
 	books: BookWithStatus[];

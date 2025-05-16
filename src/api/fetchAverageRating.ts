@@ -1,3 +1,8 @@
+/**
+ * Fetches the average rating for a book by its key from the Open Library API.
+ * Returns null if the rating is unavailable or the fetch fails.
+ */
+
 const fetchAverageRating = async (bookKey: string): Promise<number | null> => {
 	try {
 		const response = await fetch(`https://openlibrary.org/works/${bookKey}/ratings.json`);

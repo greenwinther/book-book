@@ -1,8 +1,13 @@
 import "./SearchResults.scss";
 import { useSearchParams } from "react-router-dom";
-import { useSearchBooks } from "../../hooks/useSearchBooks";
+import useSearchBooks from "../../hooks/useSearchBooks";
 import BookCard from "../../components/BookCard/BookCard";
 import PotionLoader from "../../components/PotionLoader/PotionLoader";
+
+/**
+ * Displays book search results based on query from URL params.
+ * Shows loading state, error message, or no results notice as appropriate.
+ */
 
 const SearchResults = () => {
 	const [searchParams] = useSearchParams();

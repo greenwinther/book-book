@@ -2,6 +2,12 @@ import "./AverageRating.scss";
 import { useEffect, useState } from "react";
 import fetchAverageRating from "../../api/fetchAverageRating";
 
+/**
+ * Displays the average rating for a book based on its key.
+ * Fetches rating on mount and updates when the key changes.
+ * Returns null if no rating is available.
+ */
+
 type RatingProps = {
 	bookKey: string;
 };

@@ -1,22 +1,32 @@
 import { Book, BookWorkResponse } from "../types";
-import fetchAuthorNames from "./fetchAuthorNames";
+import fetchAuthorsInfo from "./fetchAuthorsInfo";
 import fetchBookPages from "./fetchBookPages";
+
+/**
+ * Fetches detailed book data by key from the Open Library API,
+ * including authors and page count. Returns null if fetching fails.
+ */
 
 const fetchBookByKey = async (bookKey: string): Promise<Book | null> => {
 	try {
-		const response = await fetch(`https://openlibrary.org/works/${bookKey}.json`);
-		if (!response.ok) throw new Error(`Failed to fetch book with status ${response.status}`);
+		const cleanKey = bookKey.replace("/works/", "").trim();
+		const url = `https://openlibrary.org/works/${cleanKey}.json`;
+		console.log("Fetching book from URL:", url);
+
+		const response = await fetch(url);
+		if (!response.ok) throw new Error(`Failed to fetch book ${cleanKey}: ${response.status}`);
+
 		const data: BookWorkResponse = await response.json();
 
-		const [authorNames, bookPages] = await Promise.all([
-			fetchAuthorNames(data.authors ?? []),
-			fetchBookPages(bookKey),
+		const [authorsInfo, bookPages] = await Promise.all([
+			fetchAuthorsInfo(data.authors ?? []),
+			fetchBookPages(cleanKey),
 		]);
 
 		return {
-			bookKey: data.key.replace("/works/", ""),
+			bookKey: cleanKey,
 			title: data.title,
-			author: authorNames.length > 0 ? authorNames : ["Unknown"],
+			author: authorsInfo.length > 0 ? authorsInfo : [{ key: "unknown", name: "Unknown" }],
 			coverId: data.covers?.[0],
 			description: typeof data.description === "string" ? data.description : data.description?.value,
 			genres: data.subjects?.slice(0, 5),
@@ -24,7 +34,7 @@ const fetchBookByKey = async (bookKey: string): Promise<Book | null> => {
 			bookPages: bookPages ?? undefined,
 		};
 	} catch (err) {
-		console.error("Failed to fetch book: with key", err);
+		console.error("Failed to fetch book with key:", bookKey, err);
 		return null;
 	}
 };

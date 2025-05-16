@@ -1,7 +1,13 @@
 import { useEffect, useState } from "react";
 import { Book } from "../types";
 
-export const useSearchBooks = (query?: string) => {
+/**
+ * Custom hook to search books by query using Open Library API.
+ * Manages loading, error, and search results state.
+ * Automatically performs search when query changes.
+ */
+
+const useSearchBooks = (query?: string) => {
 	const [results, setResults] = useState<Book[]>([]);
 	const [loading, setLoading] = useState(false);
 	const [error, setError] = useState<string | null>(null);
@@ -16,12 +22,22 @@ export const useSearchBooks = (query?: string) => {
 			);
 			const data = await res.json();
 
-			const books: Book[] = data.docs.slice(0, 20).map((doc: any) => ({
-				bookKey: doc.key.replace("/works/", ""),
-				title: doc.title,
-				author: doc.author_name || ["Unknown"],
-				coverId: doc.cover_i,
-			}));
+			const books: Book[] = data.docs.slice(0, 5).map((doc: any) => {
+				const authorNames: string[] = doc.author_name ?? ["Unknown"];
+				const authorKeys: string[] = doc.author_key ?? [];
+
+				const authors = authorNames.map((name, i) => {
+					const key = authorKeys?.[i];
+					return key ? { key, name } : { name };
+				});
+
+				return {
+					bookKey: doc.key.replace("/works/", ""),
+					title: doc.title,
+					author: authors,
+					coverId: doc.cover_i,
+				};
+			});
 
 			setResults(books);
 		} catch (err) {
@@ -39,3 +55,5 @@ export const useSearchBooks = (query?: string) => {
 
 	return { results, loading, error, searchBooks };
 };
+
+export default useSearchBooks;
